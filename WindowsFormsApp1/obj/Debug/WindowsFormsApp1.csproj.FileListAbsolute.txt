@@ -1,0 +1,22 @@
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojAssemblyReference.cache
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.ResolveComReference.cache
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+D:\OKUL\3\5.DONEM\Programlama Dilleri\final-projesi-deneme\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojAssemblyReference.cache
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.ResolveComReference.cache
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\Users\mertb\Downloads\progdiller-17.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
