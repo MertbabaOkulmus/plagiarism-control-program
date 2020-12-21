@@ -24,13 +24,15 @@ namespace WindowsFormsApp1
         List<string> sekillerTbl1 = new List<string>();
         List<string> sekillerTbl2 = new List<string>();
 
+        List<string> Genl_Sekiller= new List<string>();
+
 
         void KoseliParantez()
         {
             for (int i = 0; i < richTextBox1.Lines.Length; i++)
             {
                 list.AddLast(richTextBox1.Lines[i]);
-            }        
+            }
             for (int i = 0; i < richTextBox1.Lines.Length; i++)
             {
                 string[] spl = richTextBox1.Lines[i].Split('[');
@@ -50,8 +52,9 @@ namespace WindowsFormsApp1
             }
         }
 
-        void Kaynakca() {
-           
+        void Kaynakca()
+        {
+
             int baslangic = 0;
             int bitis = 0;
             for (int i = 0; i < richTextBox1.Lines.Length; i++)
@@ -104,13 +107,13 @@ namespace WindowsFormsApp1
             {
                 dokuman = dokuman + richTextBox1.Lines[i] + " ";
             }
-            
+
             string[] tirnak = dokuman.Split('“').Where(x => x.Contains("”")).Select(x => new string(x.TakeWhile(c => c != '”').ToArray())).ToArray();
             for (int i = 0; i < tirnak.Length; i++)
             {
                 MessageBox.Show(tirnak[i]);
             }
-            
+
             for (int i = 0; i < tirnak.Length; i++)
             {
                 string[] spl_adet = tirnak[i].Split(' ');
@@ -125,7 +128,8 @@ namespace WindowsFormsApp1
             }
         }
 
-        void SekilKontrol() {
+        void SekilKontrol()
+        {
             int baslangic = 0;
             int bitis = 0;
             for (int i = 0; i < richTextBox1.Lines.Length; i++)
@@ -196,7 +200,6 @@ namespace WindowsFormsApp1
                     kontrol_onerilenler = true;
                     break;
                 }
-
             }
             if (!kontrol_onerilenler)
             {
@@ -217,7 +220,6 @@ namespace WindowsFormsApp1
                         deger_kontrol[j] += 1;
                     }
                 }
-
             }
 
             for (int i = 0; i < deger_kontrol.Length; i++)
@@ -230,9 +232,7 @@ namespace WindowsFormsApp1
                 {
                     MessageBox.Show("Bu yok" + sekillerTbl1[i]);
                 }
-
             }
-
         }
         #region
         private void Form1_Load(object sender, EventArgs e)
@@ -289,10 +289,20 @@ namespace WindowsFormsApp1
         #endregion
         private void button2_Click(object sender, EventArgs e)
         {
+            int baslangic = 0;
+           
+            for (int i = 0; i < richTextBox1.Lines.Length; i++)
+            {
+                string kaynakca = richTextBox1.Lines[i].Trim().ToUpper();
+                if ("1. GİRİŞ".Equals(kaynakca))
+                {
+                    baslangic = i;
+                }
 
+            }
             int ilk_nokta = 0;
-            int ikinci_nokta=0;
-            for (int i =0; i < richTextBox1.Lines.Length; i++)
+            int ikinci_nokta = 0;
+            for (int i = baslangic; i < richTextBox1.Lines.Length; i++)
             {
                 string sekiller = (richTextBox1.Lines[i]);
 
@@ -300,30 +310,61 @@ namespace WindowsFormsApp1
                 if (ilk_nokta >= 0)
                 {
                     string parca = sekiller.Substring(ilk_nokta + 7);
-                    if ('.'==parca[0])
+                    if ('.' == parca[0])
                     {
                         ikinci_nokta = sekiller.IndexOf('.', ilk_nokta + 8);
-                        if (ikinci_nokta-(ilk_nokta+8)>4)
+                        if (ikinci_nokta - (ilk_nokta + 8) > 4)
                         {
                             ikinci_nokta = sekiller.IndexOf('’', ilk_nokta + 8);
                             if (ikinci_nokta - (ilk_nokta + 8) >4)
                             {
-                                ikinci_nokta = sekiller.IndexOf(' ', ilk_nokta + 8);
+                                ikinci_nokta = sekiller.IndexOf(' ', ilk_nokta + 8);                              
                             }
                         }
-                    }                 
+                    }
                 }
-                if (ilk_nokta >= 0 && ikinci_nokta >=0)
+                if (ilk_nokta >= 0 && ikinci_nokta >= 0)
                 {
-                    string ssss = "Şekil ";
-                    ssss = ssss + sekiller.Substring(ilk_nokta+6, 1+ikinci_nokta-(ilk_nokta +6));
-                    MessageBox.Show(ssss);
+                    if (sekiller[ilk_nokta + 7] == '.' || sekiller[ilk_nokta + 8] == '.' || sekiller[ilk_nokta + 9] == '.')
+                    {
+                        string ssss = "Şekil ";
+                        ssss = ssss + sekiller.Substring(ilk_nokta + 6, 1 + ikinci_nokta - (ilk_nokta + 6));
+
+                        if (ssss[ssss.Length - 1] == '.')
+                        {
+                            int d = ssss.IndexOf(")");
+                            if (d >= 0)
+                            {
+                                ssss = ssss.Remove(d, 1);
+                            }
+                           // MessageBox.Show(ssss);
+                            Genl_Sekiller.Add(ssss);
+
+                        }
+                        if ((ssss[ssss.Length - 1] == '’') || (ssss[ssss.Length - 1] == ' '))
+                        {                          
+                            ssss = ssss.Remove(ssss.Length - 1);
+                            ssss = ssss.Insert(ssss.Length, ".");
+                            int d = ssss.IndexOf(")");
+                            if (d >= 0)
+                            {
+                                ssss = ssss.Remove(d, 1);
+                            }
+                            //MessageBox.Show(ssss);
+                            Genl_Sekiller.Add(ssss);
+                        }
+
+                    }
                 }
-               
+
             }
 
 
-
+            foreach (var item in Genl_Sekiller)
+            {
+                MessageBox.Show(item);
+            }
         }
     }
+
 }
