@@ -22,7 +22,7 @@ namespace WindowsFormsApp1
         LinkedList<int> id_ler = new LinkedList<int>();// genele []id ler
         List<int> kose = new List<int>();//kaynakça []id leri
         List<string> sekillerTbl1 = new List<string>();
-       // List<string> sekillerTbl2 = new List<string>();
+        List<string> sekillerTbl2 = new List<string>();
 
 
         void KoseliParantez()
@@ -124,6 +124,116 @@ namespace WindowsFormsApp1
                 }
             }
         }
+
+        void SekilKontrol() {
+            int baslangic = 0;
+            int bitis = 0;
+            for (int i = 0; i < richTextBox1.Lines.Length; i++)
+            {
+                string sekiller = (richTextBox1.Lines[i].Trim()).ToUpper();
+                if ("ŞEKİLLER LİSTESİ".Equals(sekiller) || "ŞEKİLLER".Equals(sekiller))
+                {
+                    baslangic = i;
+                }
+
+            }
+            for (int i = baslangic; i < richTextBox1.Lines.Length; i++)
+            {
+                string tablolar = (richTextBox1.Lines[i].Trim()).ToUpper();
+                // string ekler= richTextBox1.Lines[i].Trim();
+                if ("TABLOLAR LİSTESİ".Equals(tablolar) || "TABLOLAR".Equals(tablolar))
+                {
+                    bitis = i;
+                    break;
+                }
+                else if ("EKLER LİSTESİ".Equals(tablolar) || "EKLER".Equals(tablolar))
+                {
+                    bitis = i;
+                    break;
+                }
+
+            }// burdan konuşucuam caddcvc tama yok 
+
+            sekillerTbl1.Clear();
+
+            for (int i = baslangic + 1; i < bitis; i++)
+            {
+                //sekillerTbl1 = richTextBox1.Lines[i].Split('Ş').Where(x => x.Contains(".")).Select(x => new string(x.TakeWhile(c => c != '.').ToArray())).ToArray();
+                if (richTextBox1.Lines[i].IndexOf('Ş') == 0)
+                {
+                    int ilknokta = richTextBox1.Lines[i].IndexOf('.');//satırda geçen ilk noktanın indisini alır.
+                    int ikincinokta = richTextBox1.Lines[i].IndexOf('.', ilknokta + 1);//satırın ilk noktadan sonraki boşluğunun tespitini yapar
+                    sekillerTbl1.Add(richTextBox1.Lines[i].Substring(0, ikincinokta + 1));//satırın ilk karakteriyle geçen ilk noktadan sonraki boşluğun arasını alır.
+                }
+            }
+
+            foreach (string item in sekillerTbl1)
+            {
+                MessageBox.Show((item).ToString());
+            }
+
+            int giris = 0;
+            for (int i = bitis; i < richTextBox1.Lines.Length; i++)
+            {
+                string sekiller = (richTextBox1.Lines[i].Trim()).ToUpper();
+                sekiller = sekiller.Trim(' ', '1', '.');
+
+                if ("1.GİRİŞ".Equals(sekiller) || "GİRİŞ".Equals(sekiller))
+                {
+                    giris = i;
+                    break;
+                }
+            }
+            int oneriler = 0;
+            bool kontrol_onerilenler = false;
+            for (int i = giris; i < richTextBox1.Lines.Length; i++)
+            {
+                string sekiller = (richTextBox1.Lines[i].Trim()).ToUpper();
+
+                if ("ÖNERİLER".Equals(sekiller))
+                {
+                    oneriler = i;
+                    kontrol_onerilenler = true;
+                    break;
+                }
+
+            }
+            if (!kontrol_onerilenler)
+            {
+                MessageBox.Show("Kardeş bu tez eksik içinde Öneriler yok.\n sen git tamamla gel");
+            }
+
+            int[] deger_kontrol = new int[sekillerTbl1.Count];//sekillerTbl1 nin değerlerinin varlık durumuna göre her bulduğunda bulunana değerin bulunduğu indisi deger_kontrol arry indeki indisini bir attırır
+            for (int i = giris; i < oneriler; i++)
+            {
+                string sekiller = (richTextBox1.Lines[i]);
+                int deger = 0;
+
+                for (int j = 0; j < sekillerTbl1.Count; j++)
+                {
+                    deger = sekiller.IndexOf(sekillerTbl1[j]);
+                    if (deger >= 0)
+                    {
+                        deger_kontrol[j] += 1;
+                    }
+                }
+
+            }
+
+            for (int i = 0; i < deger_kontrol.Length; i++)
+            {
+                if (deger_kontrol[i] != 0)
+                {
+                    MessageBox.Show("Bu var" + sekillerTbl1[i]);
+                }
+                else
+                {
+                    MessageBox.Show("Bu yok" + sekillerTbl1[i]);
+                }
+
+            }
+
+        }
         #region
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -179,111 +289,39 @@ namespace WindowsFormsApp1
         #endregion
         private void button2_Click(object sender, EventArgs e)
         {
-            int baslangic = 0;
-            int bitis = 0;
-            for (int i = 0; i < richTextBox1.Lines.Length; i++)
-            {
-                string sekiller = (richTextBox1.Lines[i].Trim()).ToUpper();
-                if ("ŞEKİLLER LİSTESİ".Equals(sekiller) || "ŞEKİLLER".Equals(sekiller))
-                {
-                    baslangic = i;
-                }
-                
-            }
-            for (int i = baslangic; i < richTextBox1.Lines.Length; i++)
-            {
-                string tablolar = (richTextBox1.Lines[i].Trim()).ToUpper();
-               // string ekler= richTextBox1.Lines[i].Trim();
-                if ("TABLOLAR LİSTESİ".Equals(tablolar) || "TABLOLAR".Equals(tablolar))
-                {
-                    bitis = i;
-                    break;
-                }
-                else if ("EKLER LİSTESİ".Equals(tablolar) || "EKLER".Equals(tablolar))
-                {
-                    bitis = i;
-                    break;
-                }
 
-            }// burdan konuşucuam caddcvc tama yok 
-
-            sekillerTbl1.Clear();
-           
-            for (int i = baslangic + 1; i < bitis; i++)
-            {
-                //sekillerTbl1 = richTextBox1.Lines[i].Split('Ş').Where(x => x.Contains(".")).Select(x => new string(x.TakeWhile(c => c != '.').ToArray())).ToArray();
-                if (richTextBox1.Lines[i].IndexOf('Ş')==0)
-                {
-                    int ilknokta = richTextBox1.Lines[i].IndexOf('.');//satırda geçen ilk noktanın indisini alır.
-                    int ikincinokta = richTextBox1.Lines[i].IndexOf('.', ilknokta+1);//satırın ilk noktadan sonraki boşluğunun tespitini yapar
-                    sekillerTbl1.Add(richTextBox1.Lines[i].Substring(0, ikincinokta+1));//satırın ilk karakteriyle geçen ilk noktadan sonraki boşluğun arasını alır.
-                }                  
-            }
-
-            foreach (string item in sekillerTbl1)
-            {
-                MessageBox.Show((item).ToString());
-            }
-
-            int giris = 0;
-            for (int i = bitis; i < richTextBox1.Lines.Length; i++)
-            {
-                string sekiller = (richTextBox1.Lines[i].Trim()).ToUpper();
-                sekiller = sekiller.Trim(' ', '1', '.');
-               
-                if ("1.GİRİŞ".Equals(sekiller) || "GİRİŞ".Equals(sekiller))
-                {
-                    giris= i;
-                    break;
-                }
-            }
-            int oneriler = 0;
-            bool kontrol_onerilenler = false;
-            for (int i = giris; i < richTextBox1.Lines.Length; i++)
-            {
-                string sekiller = (richTextBox1.Lines[i].Trim()).ToUpper();
-
-                if ("ÖNERİLER".Equals(sekiller))
-                {
-                    oneriler = i;
-                    kontrol_onerilenler = true;
-                    break;
-                }
-                
-            }
-            if (!kontrol_onerilenler)
-            {
-                MessageBox.Show("Kardeş bu tez eksik içinde Öneriler yok.\n sen git tamamla gel");
-            }
-
-            int[] deger_kontrol = new int[sekillerTbl1.Count];//sekillerTbl1 nin değerlerinin varlık durumuna göre her bulduğunda bulunana değerin bulunduğu indisi deger_kontrol arry indeki indisini bir attırır
-            for (int i = giris; i <oneriler; i++)
+            int ilk_nokta = 0;
+            int ikinci_nokta=0;
+            for (int i =0; i < richTextBox1.Lines.Length; i++)
             {
                 string sekiller = (richTextBox1.Lines[i]);
-                int deger = 0;
-               
-                for (int j = 0; j < sekillerTbl1.Count; j++)
+
+                ilk_nokta = sekiller.IndexOf("Şekil ");
+                if (ilk_nokta >= 0)
                 {
-                    deger = sekiller.IndexOf(sekillerTbl1[j]);
-                    if (deger>=0)
-                    {                
-                        deger_kontrol[j] += 1;
-                    }                  
+                    string parca = sekiller.Substring(ilk_nokta + 7);
+                    if ('.'==parca[0])
+                    {
+                        ikinci_nokta = sekiller.IndexOf('.', ilk_nokta + 8);
+                        if (ikinci_nokta-(ilk_nokta+8)>4)
+                        {
+                            ikinci_nokta = sekiller.IndexOf('’', ilk_nokta + 8);
+                            if (ikinci_nokta - (ilk_nokta + 8) >4)
+                            {
+                                ikinci_nokta = sekiller.IndexOf(' ', ilk_nokta + 8);
+                            }
+                        }
+                    }                 
+                }
+                if (ilk_nokta >= 0 && ikinci_nokta >=0)
+                {
+                    string ssss = "Şekil ";
+                    ssss = ssss + sekiller.Substring(ilk_nokta+6, 1+ikinci_nokta-(ilk_nokta +6));
+                    MessageBox.Show(ssss);
                 }
                
             }
 
-            for (int i = 0; i <deger_kontrol.Length; i++)
-            {
-                if (deger_kontrol[i] != 0)
-                {
-                    MessageBox.Show("Bu var"+sekillerTbl1[i]);
-                }
-                else {
-                    MessageBox.Show("Bu yok"+ sekillerTbl1[i]);
-                }
-
-            }
 
 
         }
