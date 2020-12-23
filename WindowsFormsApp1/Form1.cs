@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System; 
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,11 +10,13 @@ using System.Windows.Forms;
 using wordDoc=Microsoft.Office.Interop.Word;
 using System.Runtime.InteropServices;
 using System.Collections;
+using Microsoft.Office.Interop.Word;
+
 namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        public Form1()//
         {
             InitializeComponent();
         }
@@ -24,7 +26,7 @@ namespace WindowsFormsApp1
         List<string> sekillerTbl1 = new List<string>();
         List<string> sekillerTbl2 = new List<string>();
 
-        List<string> Genl_Sekiller= new List<string>();
+        List<string> Genl_Sekiller = new List<string>();
 
 
         void KoseliParantez()
@@ -234,63 +236,10 @@ namespace WindowsFormsApp1
                 }
             }
         }
-        #region
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            //wordDoc.Application oWord;
-            //wordDoc.Document oDoc;
-            //oWord = new wordDoc.Application();
-            //oWord.Visible = true;
-            //oDoc = oWord.Documents.Add();
-            //Clipboard.SetText(richTextBox1.Text);
-            //oDoc.ActiveWindow.Selection.Paste();
-            //string fileName = @"deneme.docx";
-            //oWord.Application.ActiveDocument.SaveAs2(fileName);
-            //oDoc.Close();
 
-
-            //richTextBox1.LoadFile(@"deneme.docx", RichTextBoxStreamType.PlainText);
-
-            //Microsoft.Office.Interop.Word.Application WordObj;
-            //WordObj = (Microsoft.Office.Interop.Word.Application)System.Runtime.InteropServices.Marshal.GetActiveObject("Word.Application");
-            //for (int i = 0; i < WordObj.Windows.Count; i++)
-            //{
-            //    object idx = i + 1;
-            //    Window WinObj = WordObj.Windows.get_Item(ref idx);
-            //    doc_list.Add(WinObj.Document.FullName);
-            //}        
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog ofd = new OpenFileDialog() { ValidateNames = true, Multiselect = false, Filter = "Word 97-2003|*.doc|Word Document|*.docx" })
-            {
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    object readOnly = false;
-                    object visible = true;
-                    object save = false;
-                    object fileName = ofd.FileName;
-                    object newTemplate = false;
-                    object docType = 0;
-                    object missing = Type.Missing;
-                    Microsoft.Office.Interop.Word._Document document;
-                    Microsoft.Office.Interop.Word._Application application = new Microsoft.Office.Interop.Word.Application() { Visible = false }; document = application.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing, ref missing, ref missing, ref missing,
-                    ref missing, ref missing, ref missing, ref missing, ref visible, ref missing, ref missing, ref missing, ref missing); document.ActiveWindow.Selection.WholeStory();
-                    document.ActiveWindow.Selection.Copy();
-                    IDataObject dataObject = Clipboard.GetDataObject();
-                    richTextBox1.Rtf = dataObject.GetData(DataFormats.Rtf).ToString();
-
-                    application.Quit(ref missing, ref missing, ref missing);
-                }
-            }
-
-        }
-        #endregion
-        private void button2_Click(object sender, EventArgs e)
-        {
+        void GenelSekilKontrolu() {
             int baslangic = 0;
-           
+
             for (int i = 0; i < richTextBox1.Lines.Length; i++)
             {
                 string kaynakca = richTextBox1.Lines[i].Trim().ToUpper();
@@ -316,9 +265,9 @@ namespace WindowsFormsApp1
                         if (ikinci_nokta - (ilk_nokta + 8) > 4)
                         {
                             ikinci_nokta = sekiller.IndexOf('’', ilk_nokta + 8);
-                            if (ikinci_nokta - (ilk_nokta + 8) >4)
+                            if (ikinci_nokta - (ilk_nokta + 8) > 4)
                             {
-                                ikinci_nokta = sekiller.IndexOf(' ', ilk_nokta + 8);                              
+                                ikinci_nokta = sekiller.IndexOf(' ', ilk_nokta + 8);
                             }
                         }
                     }
@@ -329,7 +278,6 @@ namespace WindowsFormsApp1
                     {
                         string ssss = "Şekil ";
                         ssss = ssss + sekiller.Substring(ilk_nokta + 6, 1 + ikinci_nokta - (ilk_nokta + 6));
-
                         if (ssss[ssss.Length - 1] == '.')
                         {
                             int d = ssss.IndexOf(")");
@@ -337,12 +285,12 @@ namespace WindowsFormsApp1
                             {
                                 ssss = ssss.Remove(d, 1);
                             }
-                           // MessageBox.Show(ssss);
+                            // MessageBox.Show(ssss);
                             Genl_Sekiller.Add(ssss);
 
                         }
                         if ((ssss[ssss.Length - 1] == '’') || (ssss[ssss.Length - 1] == ' '))
-                        {                          
+                        {
                             ssss = ssss.Remove(ssss.Length - 1);
                             ssss = ssss.Insert(ssss.Length, ".");
                             int d = ssss.IndexOf(")");
@@ -352,17 +300,89 @@ namespace WindowsFormsApp1
                             }
                             //MessageBox.Show(ssss);
                             Genl_Sekiller.Add(ssss);
-                        }
 
+
+                        }
                     }
                 }
-
             }
-
 
             foreach (var item in Genl_Sekiller)
             {
                 MessageBox.Show(item);
+
+            }
+        }
+        #region
+        private void Form1_Load(object sender, EventArgs e)
+        {
+           
+        }
+        
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog() { ValidateNames = true, Multiselect = false, Filter = "Word 97-2003|*.doc|Word Document|*.docx" })
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    object readOnly = false;
+                    object visible = true;
+                    object save = false;
+                    object fileName = ofd.FileName;
+                    object newTemplate = false;
+                    object docType = 0;
+                    object missing = Type.Missing;
+                    Microsoft.Office.Interop.Word._Document document;
+                    Microsoft.Office.Interop.Word._Application application = new Microsoft.Office.Interop.Word.Application() { Visible = false }; document = application.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing, ref missing, ref missing, ref missing,
+                    ref missing, ref missing, ref missing, ref missing, ref visible, ref missing, ref missing, ref missing, ref missing); document.ActiveWindow.Selection.WholeStory();
+                    document.ActiveWindow.Selection.Copy();
+                    IDataObject dataObject = Clipboard.GetDataObject();
+                    richTextBox1.Rtf = dataObject.GetData(DataFormats.Rtf).ToString();
+                    application.Quit(ref missing, ref missing, ref missing);
+                }
+            }
+
+        }
+        #endregion
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int kelime = 0;
+
+            for (int i = 0; i < richTextBox1.Lines.Length; i++)
+            {
+                bool kontrol = false;
+                string spl = richTextBox1.Lines[i];
+                kelime = kelime + spl.Length;
+                int index = 0;
+                for (richTextBox1.SelectionStart = kelime; richTextBox1.SelectionStart < richTextBox1.Text.Length - 1; richTextBox1.SelectionStart++)
+                {
+                    char bosluk = richTextBox1.Text[richTextBox1.SelectionStart];
+                    
+                    var s = richTextBox1.SelectionFont.Style;
+                    if (index <= spl.Length)
+                    {
+                        if ((s & FontStyle.Bold) != 0 || bosluk==' ')
+                        {
+
+                            //MessageBox.Show(s.ToString());
+                            kontrol = true;
+                        }
+                        else
+                        {
+                            kontrol = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    index++;
+                }
+                if (kontrol == true)
+                {
+                    MessageBox.Show(richTextBox1.Lines[i]);
+                }
             }
         }
     }
