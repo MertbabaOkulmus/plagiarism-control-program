@@ -36,17 +36,17 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(2, 2);
+            this.richTextBox1.Location = new System.Drawing.Point(4, 2);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(834, 420);
+            this.richTextBox1.Size = new System.Drawing.Size(820, 485);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(842, 56);
+            this.button1.Location = new System.Drawing.Point(846, 24);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 39);
+            this.button1.Size = new System.Drawing.Size(88, 52);
             this.button1.TabIndex = 1;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
@@ -54,9 +54,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(842, 126);
+            this.button2.Location = new System.Drawing.Point(846, 94);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 39);
+            this.button2.Size = new System.Drawing.Size(88, 52);
             this.button2.TabIndex = 2;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
@@ -64,9 +64,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(842, 202);
+            this.button3.Location = new System.Drawing.Point(846, 170);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 39);
+            this.button3.Size = new System.Drawing.Size(88, 52);
             this.button3.TabIndex = 3;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
@@ -76,7 +76,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1020, 550);
+            this.ClientSize = new System.Drawing.Size(958, 490);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
