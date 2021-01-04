@@ -615,6 +615,92 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Önsözün ilk paragrafın da teşekkür ifadesi kullanılmaz!");
             }
         }
+
+        /**
+         * Tez Onay Kontrolü
+         */
+        void TezOnayKontrolu()
+        {
+            WordAc();
+            Microsoft.Office.Interop.Word.Paragraphs DocPar = document.Paragraphs;
+
+            long parCount = DocPar.Count;
+
+            int i = 0;
+
+            int baslangic = 0;
+            while (i < parCount)
+            {
+                i++;
+                if (DocPar[i].Range.Text == "TEZ ONAYI\r")
+                {
+                    baslangic = i;
+                    break;
+                }
+            }
+            int bitis = 0;
+            i = 0;
+            while (i < parCount)
+            {
+                i++;
+                if (DocPar[i].Range.Text == "BEYAN\r")
+                {
+                    bitis = i;
+                    break;
+                }
+            }
+            while (baslangic < bitis)
+            {
+                string tezonay = DocPar[baslangic].Range.Text.ToLower();
+                int onaylarım = tezonay.IndexOf("oybirliği");
+                if (onaylarım > 0)
+                {
+                    MessageBox.Show("Test");
+                    break;
+                }
+                baslangic++;
+
+            }
+            document.Close();
+            application.Quit();
+        }
+
+        public void WordAc()
+        {
+            string a;
+            using (OpenFileDialog ofd = new OpenFileDialog() { ValidateNames = true, Multiselect = false, Filter = "Word 97-2003|*.doc|Word Document|*.docx" })
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    object readOnly = false;
+                    object visible = true;
+                    object save = false;
+                    object fileName = ofd.FileName;
+                    object newTemplate = false;
+                    object docType = 0;
+                    object missing = Type.Missing;
+                    // Microsoft.Office.Interop.Word._Document document;
+                    application = new Microsoft.Office.Interop.Word.Application() { Visible = false }; document = application.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing, ref missing, ref missing, ref missing,
+                    ref missing, ref missing, ref missing, ref missing, ref visible, ref missing, ref missing, ref missing, ref missing); document.ActiveWindow.Selection.WholeStory();
+                    //document.ActiveWindow.Selection.Copy();
+                    //IDataObject dataObject = Clipboard.GetDataObject();
+                    //richTextBox1.Rtf = dataObject.GetData(DataFormats.Rtf).ToString();
+
+                    //application.Quit(ref missing, ref missing, ref missing);
+
+                    Microsoft.Office.Interop.Word.Range rng = document.Content;
+                    Microsoft.Office.Interop.Word.Find find = rng.Find;
+                    Microsoft.Office.Interop.Word.Selection Selection;
+                    Microsoft.Office.Interop.Word.WdLanguageID lid;
+
+
+
+                    //document.Close();
+                    //application.Quit(ref missing, ref missing, ref missing);
+                }
+            }
+        }
+
         #region
         private void Form1_Load(object sender, EventArgs e)
         {
