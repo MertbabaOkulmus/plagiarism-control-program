@@ -13,6 +13,7 @@ using System.Collections;
 using Microsoft.Office.Interop.Word;
 
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace WindowsFormsApp1
 {
@@ -28,8 +29,11 @@ namespace WindowsFormsApp1
         List<string> sekillerTbl1 = new List<string>();
         List<string> sekillerTbl2 = new List<string>();
         List<string> Genl_Sekiller = new List<string>();
-        Dictionary<string,int> basliklar = new Dictionary<string,int>();
+        Dictionary<string, int> basliklar = new Dictionary<string, int>();
 
+        string TezYazarı = null;//Tez yazarının adı
+        object fileName;
+        OpenFileDialog ofd;
         /*
          * KoseliParantez()
          * Kaynakca()
@@ -607,7 +611,7 @@ namespace WindowsFormsApp1
                     kontrol = true;
                 }
             }
-            string b = DocPar[paragrafDeger].Range.Text.Trim();           
+            string b = DocPar[paragrafDeger].Range.Text.Trim().ToLower();
 
             int deger = b.IndexOf("teşekkür");
             if (deger >= 0)
@@ -621,7 +625,7 @@ namespace WindowsFormsApp1
          */
         void TezOnayKontrolu()
         {
-            WordAc();
+            //WordAc();
             Microsoft.Office.Interop.Word.Paragraphs DocPar = document.Paragraphs;
 
             long parCount = DocPar.Count;
@@ -661,53 +665,312 @@ namespace WindowsFormsApp1
                 baslangic++;
 
             }
-            document.Close();
-            application.Quit();
+            //document.Close();
+            //application.Quit();
+        }
+
+        /*
+         * Önsöz kısmında yazar adı ve tarih varmı
+         
+         */
+        void OnsozTarihveAdKontrolu() {
+
+            Microsoft.Office.Interop.Word.Paragraphs DocPar = document.Paragraphs;
+            long parCount = DocPar.Count;
+
+            int i = 0;
+
+            int baslangic = 0;
+            while (i < parCount)
+            {
+                i++;
+                if (DocPar[i].Range.Text == "ÖNSÖZ\r")
+                {
+                    baslangic = i;
+                    break;
+                }
+            }
+            int bitis = 0;
+            i = 0;
+            while (i < parCount)
+            {
+                i++;
+                if (DocPar[i].Range.Text == "İÇİNDEKİLER\r")
+                {
+                    bitis = i;
+                    break;
+                }
+            }
+            while (bitis >= baslangic)
+            {
+                string tarihKontrol = DocPar[bitis].Range.Text.ToLower();
+                int tarih = tarihKontrol.IndexOf("20");
+                if (tarih > 0)
+                {
+                    if (DocPar[bitis - 1].Range.Text.ToLower() != "\r")
+                    {
+                        string yazar = DocPar[bitis - 1].Range.Text;
+                        if (yazar == TezYazarı)
+                        {
+                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                            MessageBox.Show(DocPar[bitis - 1].Range.Text.ToLower());                         
+                            break;
+                        }
+                        else {
+                            MessageBox.Show("Yazar adı belirtilmemiştir");
+                            break;
+                        }
+                    }
+                    else if (DocPar[bitis - 2].Range.Text.ToLower() != "\r") {
+                        string yazar = DocPar[bitis - 2].Range.Text;
+                        if (yazar == TezYazarı)
+                        {
+                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                            MessageBox.Show(DocPar[bitis - 2].Range.Text.ToLower());
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Yazar adı belirtilmemiştir");
+                            break;
+                        }
+                    }
+                    else {
+
+                        string yazar = DocPar[bitis - 3].Range.Text;
+                        if (yazar == TezYazarı)
+                        {
+                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                            MessageBox.Show(DocPar[bitis - 3].Range.Text.ToLower());
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Yazar adı belirtilmemiştir");
+                            break;
+                        }
+                    }
+                }
+                bitis--;
+            }
+
+        }
+        
+        /*
+         * Beyan kısmında yazar adı ve tarih varmı      
+         */
+        void BeyanTarihveAdKontrolu(){
+             YazarAdi();
+             Microsoft.Office.Interop.Word.Paragraphs DocPar = document.Paragraphs;
+             long parCount = DocPar.Count;
+             int i = 0;
+             int baslangic = 0;
+                while (i<parCount)
+                {
+                    i++;
+                    if (DocPar[i].Range.Text == "BEYAN\r")
+                    {
+                        baslangic = i;
+                        break;
+                    }
+                }
+                int bitis = 0;
+                i = 0;
+                while (i < parCount)
+                {
+                  i++;
+                  if (DocPar[i].Range.Text == "ÖNSÖZ\r")
+                  {
+                    bitis = i;
+                    break;
+                  }
+                }
+
+            while (bitis >= baslangic)
+            {
+                string tarihKontrol = DocPar[bitis].Range.Text;
+                int tarih = tarihKontrol.IndexOf("20");
+                int YazarAd = tarihKontrol.IndexOf(TezYazarı);
+                if (tarih >= 0)// önce ad sonra tarih yazılmışsa buraya gir
+                {
+                    if (DocPar[bitis - 1].Range.Text.ToLower() != "\r")
+                    {
+                        string yazar = DocPar[bitis - 1].Range.Text;
+                        if (yazar == TezYazarı)
+                        {
+                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                            MessageBox.Show(DocPar[bitis - 1].Range.Text.ToLower());
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            break;
+                        }
+                    }
+                    else if (DocPar[bitis - 2].Range.Text.ToLower() != "\r")
+                    {
+                        string yazar = DocPar[bitis - 2].Range.Text;
+                        if (yazar == TezYazarı)
+                        {
+                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                            MessageBox.Show(DocPar[bitis - 2].Range.Text.ToLower());
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            break;
+                        }
+                    }
+                    else
+                    {
+
+                        string yazar = DocPar[bitis - 3].Range.Text;
+                        if (yazar == TezYazarı)
+                        {
+                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                            MessageBox.Show(DocPar[bitis - 3].Range.Text.ToLower());
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            break;
+                        }
+                    }
+                }
+
+                else if (YazarAd >= 0)// önce tarih sonra ad yazılmışsa buraya gir
+                {
+                    if (DocPar[bitis - 1].Range.Text.ToLower() != "\r")
+                    {
+                        tarih = DocPar[bitis - 1].Range.Text.IndexOf("20");
+                        if (tarih > 0)
+                        {
+                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                            MessageBox.Show(DocPar[bitis - 1].Range.Text.ToLower());
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            break;
+                        }
+                    }
+                    else if (DocPar[bitis - 2].Range.Text.ToLower() != "\r")
+                    {
+                        tarih = DocPar[bitis - 2].Range.Text.IndexOf("20");
+
+                        if (tarih > 0)
+                        {
+                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                            MessageBox.Show(DocPar[bitis - 2].Range.Text.ToLower());
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        tarih = DocPar[bitis - 3].Range.Text.IndexOf("20");
+
+                        if (tarih > 0)
+                        {
+                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                            MessageBox.Show(DocPar[bitis - 3].Range.Text.ToLower());
+                            break;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            break;
+                        }
+                    }
+                }
+                bitis--;
+            }
+        
+         }
+
+        void YazarAdi() {
+           
+            Microsoft.Office.Interop.Word.Paragraphs DocPar = document.Paragraphs;
+            long parCount = DocPar.Count;
+            int i = 0;
+            int baslangic = 0;
+            while (i < parCount)
+            {
+                i++;
+                if (DocPar[i].Range.Text == "Tez Yazarı\r")
+                {
+                    baslangic = i;
+                    break;
+                }
+            }
+            TezYazarı = DocPar[i + 1].Range.Text;
         }
 
         public void WordAc()
         {
-            string a;
-            using (OpenFileDialog ofd = new OpenFileDialog() { ValidateNames = true, Multiselect = false, Filter = "Word 97-2003|*.doc|Word Document|*.docx" })
+            using (ofd = new OpenFileDialog() { ValidateNames = true, Multiselect = false, Filter = "Word 97-2003|*.doc|Word Document|*.docx" })
             {
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     object readOnly = false;
                     object visible = true;
                     object save = false;
-                    object fileName = ofd.FileName;
+                    fileName = ofd.FileName;
                     object newTemplate = false;
                     object docType = 0;
                     object missing = Type.Missing;
                     // Microsoft.Office.Interop.Word._Document document;
                     application = new Microsoft.Office.Interop.Word.Application() { Visible = false }; document = application.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing, ref missing, ref missing, ref missing,
                     ref missing, ref missing, ref missing, ref missing, ref visible, ref missing, ref missing, ref missing, ref missing); document.ActiveWindow.Selection.WholeStory();
-                    //document.ActiveWindow.Selection.Copy();
-                    //IDataObject dataObject = Clipboard.GetDataObject();
-                    //richTextBox1.Rtf = dataObject.GetData(DataFormats.Rtf).ToString();
+                    document.ActiveWindow.Selection.Copy();
+                    IDataObject dataObject = Clipboard.GetDataObject();
+                    richTextBox1.Rtf = dataObject.GetData(DataFormats.Rtf).ToString();
 
                     //application.Quit(ref missing, ref missing, ref missing);
 
                     Microsoft.Office.Interop.Word.Range rng = document.Content;
                     Microsoft.Office.Interop.Word.Find find = rng.Find;
-                    Microsoft.Office.Interop.Word.Selection Selection;
-                    Microsoft.Office.Interop.Word.WdLanguageID lid;
-
-
-
+                    //Microsoft.Office.Interop.Word.Selection Selection;
+                   // Microsoft.Office.Interop.Word.WdLanguageID lid;
                     //document.Close();
                     //application.Quit(ref missing, ref missing, ref missing);
                 }
             }
         }
-
-        #region
-        private void Form1_Load(object sender, EventArgs e)
+      
+       public void WordAc2()
         {
-           
+            object readOnly = false;
+            object visible = true;
+            object save = false;
+            fileName = ofd.FileName;
+            object newTemplate = false;
+            object docType = 0;
+            object missing = Type.Missing;
+
+
+            // Microsoft.Office.Interop.Word.Range rng = document.Content;
+            // Microsoft.Office.Interop.Word.Find find = rng.Find;
+            Microsoft.Office.Interop.Word.Selection Selection;
+            Microsoft.Office.Interop.Word.WdLanguageID lid;
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        { 
+        }
+       
         Microsoft.Office.Interop.Word._Document document;
         Microsoft.Office.Interop.Word._Application application;
+
+
         private void button1_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog() { ValidateNames = true, Multiselect = false, Filter = "Word 97-2003|*.doc|Word Document|*.docx" })
@@ -734,74 +997,51 @@ namespace WindowsFormsApp1
                 }
             }
 
-        }
-        #endregion
+        }       
         private void button2_Click(object sender, EventArgs e)
         {
-            /*
-            önsöz bölümünün ilk paragrafında tez konusunun önemi, zorlukları, 
-            sınırları ve isteklendirme (motivasyon) faktörleri hakkında bilgi verilmelidir. 
-            Önsöz bölümünün ilk paragrafında paragrafında, tez çalışmalarına protokol numaralı 
-            proje ile maddi destek sağlayan ve/veya yazılı olur müsaadesi veren kurum/kuruluşlara 
-            ilgili yazı ve protokol numaraları belirtilerek teşekkür edilmemelidir.
-            */
-
-            /**
-             * Şekiller listesi için yapılanların Tablolar listesi için de yapılacak
-             */
-            int baslangic = 0;
-            int bitis = 0;
-            for (int i = 0; i < richTextBox1.Lines.Length; i++)
-            {
-                string onerilenler = richTextBox1.Lines[i].Trim();
-                if ("ÖNSÖZ" == onerilenler)
-                {
-                    baslangic = i;
-                }
-            }
-
-            for (int i = baslangic; i < richTextBox1.Lines.Length; i++)
-            {
-                string İÇİNDEKİLER = richTextBox1.Lines[i].Trim();
-                if ("İÇİNDEKİLER"==İÇİNDEKİLER)
-                {
-                    bitis = i;
-                    break;
-                }
-            }
-
-            int sayac = 0;
-            for (int i = baslangic; i < bitis; i++)
-            {
-                string satir = richTextBox1.Lines[i];
-                
-                if (satir!=null && satir.Length>5)
-                {
-                    if (satir[0] == ' ' || satir[1] == ' ')
-                    {
-                        MessageBox.Show(satir);
-                        break;
-                    }
-                }
-                satir = satir.ToUpper();
-                int tesekkur=satir.IndexOf("TEŞEKKÜR");
-                int tesekkurederim = satir.IndexOf("TEŞEKKÜR EDERİM");
-                int tesekkurler = satir.IndexOf("TEŞEKKÜRLER");
-
-                if (tesekkur>=0 ||  tesekkurler>=0 || tesekkurederim>=0)
-                {
-                    MessageBox.Show(satir);
-                    MessageBox.Show("Kardeş duyduğuma göre teşekkür etmişsin ?");
-                    break;
-                }
-            }
-
+                          
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
-           
+            WordAc();
+            Microsoft.Office.Interop.Word.Paragraphs DocPar = document.Paragraphs;
+
+            long parCount = DocPar.Count;
+
+            int i = 0;
+
+            int baslangic = 0;
+            while (i < parCount)
+            {
+                i++;
+                if (DocPar[i].Range.Text == "Tez Yazarı\r")
+                {
+                    baslangic = i;
+                    break;
+                }
+            }
+            MessageBox.Show(DocPar[i+1].Range.Text);
+            document.Close();
+            application.Quit();
+
         }
-    }
-    
+        private void button4_Click(object sender, EventArgs e)
+        {
+            WordAc();
+        }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Process[] ps = Process.GetProcessesByName("WINWORD");
+            foreach (Process p in ps)
+                  p.Kill();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Process[] ps = Process.GetProcessesByName("WINWORD");
+            foreach (Process p in ps)
+                p.Kill();
+        }
+    } 
 }
