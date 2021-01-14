@@ -959,8 +959,8 @@ namespace WindowsFormsApp1
 
             // Microsoft.Office.Interop.Word.Range rng = document.Content;
             // Microsoft.Office.Interop.Word.Find find = rng.Find;
-            Microsoft.Office.Interop.Word.Selection Selection;
-            Microsoft.Office.Interop.Word.WdLanguageID lid;
+          //  Microsoft.Office.Interop.Word.Selection Selection;
+          //  Microsoft.Office.Interop.Word.WdLanguageID lid;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -1042,6 +1042,16 @@ namespace WindowsFormsApp1
             Process[] ps = Process.GetProcessesByName("WINWORD");
             foreach (Process p in ps)
                 p.Kill();
+        }
+
+        private void KaynakcaKontrol_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BaslikSayfaNumaralari_Click(object sender, EventArgs e)
+        {
+
         }
     } 
 }
