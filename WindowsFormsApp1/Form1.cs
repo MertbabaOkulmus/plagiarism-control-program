@@ -24,7 +24,7 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
         LinkedList<string> list = new LinkedList<string>();// satır satır tüm word verileri
-        LinkedList<int> id_ler = new LinkedList<int>();// genele []id ler
+        List<int> id_ler = new List<int>();// genele []id ler
         List<int> kose = new List<int>();//kaynakça []id leri
         List<string> sekillerTbl1 = new List<string>();
         List<string> sekillerTbl2 = new List<string>();
@@ -34,6 +34,7 @@ namespace WindowsFormsApp1
         string TezYazarı = null;//Tez yazarının adı
         object fileName;
         OpenFileDialog ofd;
+
         /*
          * KoseliParantez()
          * Kaynakca()
@@ -42,20 +43,58 @@ namespace WindowsFormsApp1
          */
         void KoseliParantez()
         {
+            //int baslangic = 0;
+            int bitis = 0;
+            for (int i = 0; i < richTextBox1.Lines.Length; i++)
+            {
+                string kaynakca = richTextBox1.Lines[i].Trim().ToLower();
+                if ("kaynakça".Equals(kaynakca) || "kaynaklar".Equals(kaynakca))
+                {
+                    bitis = i;
+                }
+
+            }
             for (int i = 0; i < richTextBox1.Lines.Length; i++)
             {
                 list.AddLast(richTextBox1.Lines[i]);
             }
-            for (int i = 0; i < richTextBox1.Lines.Length; i++)
+            for (int i = 0; i < bitis; i++)//bitise kadar gitmesinin sebebi kaynakların içine tekrardan kontrol etmesin diye
             {
-                string[] spl = richTextBox1.Lines[i].Split('[');
-
-                for (int j = 1; j < spl.Length; j = j + 2)
+                string dokuman = richTextBox1.Lines[i];
+                string[] tirnak = dokuman.Split('[').Where(x => x.Contains("]")).Select(x => new string(x.TakeWhile(c => c != ']').ToArray())).ToArray();
+                for (int j = 0; j < tirnak.Length; j++)
                 {
-                    // iid_ler.AddLast(spl[j].Substring(0));
-                    //spl[j].Split(']');
-                    id_ler.AddLast(int.Parse(spl[j].Split(']')[0]));
+                   
+                    int kontrol = tirnak[j].IndexOf(",");
+                    if (kontrol>=0)
+                    {
+                        string[] spl = tirnak[j].Split(',');
+                        for (int k = 0; k <spl.Length; k++)
+                        {
+                            string sayi = spl[k].Trim();
+                            id_ler.Add(int.Parse(sayi));
+                            //MessageBox.Show(sayi);
+                        }
+                    }
+                    else {
+                       // MessageBox.Show(tirnak[j]);
+                        id_ler.Add(int.Parse(tirnak[j]));
+                    }
                 }
+
+
+                //int kontrol = richTextBox1.Lines[i].IndexOf("[");
+                //if (kontrol>=0)
+                //{  
+                //string[] spl = richTextBox1.Lines[i].Split('[');
+
+                //for (int j = 1; j < spl.Length; j = j + 2)
+                //{
+                //    // iid_ler.AddLast(spl[j].Substring(0));
+                //    //spl[j].Split(']');
+                //    id_ler.Add(int.Parse(spl[j].Split(']')[0]));
+                //}
+                //}
             }
 
             foreach (var item in id_ler)
@@ -70,8 +109,8 @@ namespace WindowsFormsApp1
             int bitis = 0;
             for (int i = 0; i < richTextBox1.Lines.Length; i++)
             {
-                string kaynakca = richTextBox1.Lines[i].Trim();
-                if ("Kaynakça".Equals(kaynakca))
+                string kaynakca = richTextBox1.Lines[i].Trim().ToLower();
+                if ("kaynakça".Equals(kaynakca) || "kaynaklar".Equals(kaynakca))
                 {
                     baslangic = i;
                 }
@@ -79,13 +118,13 @@ namespace WindowsFormsApp1
             }
             for (int i = baslangic; i < richTextBox1.Lines.Length; i++)
             {
-                string ekler = richTextBox1.Lines[i].Trim();
-                if ("Ekler".Equals(ekler))
+                string ekler = richTextBox1.Lines[i].Trim().ToLower();
+                if ("ekler".Equals(ekler))
                 {
                     bitis = i;
                     break;
                 }
-                else if ("Özgeçmiş".Equals(ekler))
+                else if ("özgeçmiş".Equals(ekler))
                 {
                     bitis = i;
                     break;
@@ -180,7 +219,7 @@ namespace WindowsFormsApp1
                     break;
                 }
 
-            }// burdan konuşucuam caddcvc tama yok 
+            }
 
             sekillerTbl1.Clear();
 
@@ -825,7 +864,6 @@ namespace WindowsFormsApp1
                     }
                     else
                     {
-
                         string yazar = DocPar[bitis - 3].Range.Text;
                         if (yazar == TezYazarı)
                         {
@@ -893,7 +931,6 @@ namespace WindowsFormsApp1
                 }
                 bitis--;
             }
-        
          }
 
         void YazarAdi() {
@@ -938,10 +975,10 @@ namespace WindowsFormsApp1
 
                     Microsoft.Office.Interop.Word.Range rng = document.Content;
                     Microsoft.Office.Interop.Word.Find find = rng.Find;
-                    //Microsoft.Office.Interop.Word.Selection Selection;
-                   // Microsoft.Office.Interop.Word.WdLanguageID lid;
-                    //document.Close();
-                    //application.Quit(ref missing, ref missing, ref missing);
+                     //Microsoft.Office.Interop.Word.Selection Selection;
+                    // Microsoft.Office.Interop.Word.WdLanguageID lid;
+                   //document.Close();
+                  //application.Quit(ref missing, ref missing, ref missing);
                 }
             }
         }
@@ -1028,6 +1065,12 @@ namespace WindowsFormsApp1
         }
         private void button4_Click(object sender, EventArgs e)
         {
+
+            Process[] ps = Process.GetProcessesByName("WINWORD");
+            foreach (Process p in ps)
+                p.Kill();
+
+            timer1.Enabled = true;
             WordAc();
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -1037,21 +1080,77 @@ namespace WindowsFormsApp1
                   p.Kill();
         }
 
-        private void button5_Click(object sender, EventArgs e)
+  
+
+        private void AlintiKontrol_Click(object sender, EventArgs e)
         {
-            Process[] ps = Process.GetProcessesByName("WINWORD");
-            foreach (Process p in ps)
-                p.Kill();
+            timer1.Enabled = true;
+
+            TirnakKontrol();
         }
 
-        private void KaynakcaKontrol_Click(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            progressBar1.Minimum = 0;
+            progressBar1.Maximum = 1;
+            progressBar1.Step = 1;
+            timer1.Interval = 100;
+
+            if (progressBar1.Value == progressBar1.Maximum)
+            {
+                timer1.Enabled = false;
+                return;
+            }
+
+            progressBar1.Value += 1;
+        }
+
+        private void SekillerListesi_Click(object sender, EventArgs e)
+        {
+            timer1.Enabled = true;
+            SekilKontrol();
+            GenelSekilKontrolu();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
 
         private void BaslikSayfaNumaralari_Click(object sender, EventArgs e)
         {
+            IcindekilerBaslikKontrolu();
+            IcindekilerBaslikKontroluDevamıBtn3();
+        }
+
+        private void KaynakcaKontrol_Click(object sender, EventArgs e)
+        {
+            KoseliParantez();
+            Kaynakca();
+            //karşılaştırma
+            int length = 0;
+            if (id_ler.Count > kose.Count)
+            {
+                length = id_ler.Count;
+            }
+            else {
+                length = kose.Count;
+            }
+            for (int i = 0; i <length; i++)
+            {
+              //  KoseliParantez düzeltildi ve şimdi kaynakçda düzgünse karşılaştırma yapılacak sadece sonra bitiyor
+
+                //if ()
+                //{
+
+                //}
+            }
 
         }
+    }
     } 
-}

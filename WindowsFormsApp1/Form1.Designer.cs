@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
@@ -39,33 +41,34 @@
             this.SekillerListesi = new System.Windows.Forms.Button();
             this.TablolarListesi = new System.Windows.Forms.Button();
             this.BaslikSayfaNumaralari = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.OnsozTesekkur = new System.Windows.Forms.Button();
             this.BeyanTarihAd = new System.Windows.Forms.Button();
             this.OnsozTarihAd = new System.Windows.Forms.Button();
             this.TezOnay = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(0, 2);
+            this.richTextBox1.Location = new System.Drawing.Point(457, 26);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(550, 518);
+            this.richTextBox1.Size = new System.Drawing.Size(567, 643);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(556, 2);
+            this.button1.Location = new System.Drawing.Point(22, 54);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(88, 52);
             this.button1.TabIndex = 1;
@@ -75,7 +78,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(556, 60);
+            this.button2.Location = new System.Drawing.Point(22, 113);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(88, 52);
             this.button2.TabIndex = 2;
@@ -85,7 +88,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(556, 127);
+            this.button3.Location = new System.Drawing.Point(146, 54);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(88, 52);
             this.button3.TabIndex = 3;
@@ -95,7 +98,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(556, 196);
+            this.button4.Location = new System.Drawing.Point(146, 113);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(88, 52);
             this.button4.TabIndex = 4;
@@ -105,7 +108,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(556, 268);
+            this.button5.Location = new System.Drawing.Point(268, 54);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(88, 52);
             this.button5.TabIndex = 5;
@@ -115,210 +118,206 @@
             // 
             // KaynakcaKontrol
             // 
-            this.KaynakcaKontrol.Location = new System.Drawing.Point(702, 12);
+            this.KaynakcaKontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.KaynakcaKontrol.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.KaynakcaKontrol.Location = new System.Drawing.Point(40, 102);
             this.KaynakcaKontrol.Name = "KaynakcaKontrol";
             this.KaynakcaKontrol.Size = new System.Drawing.Size(101, 52);
             this.KaynakcaKontrol.TabIndex = 6;
             this.KaynakcaKontrol.Text = "Kaynakça";
-            this.KaynakcaKontrol.UseVisualStyleBackColor = true;
+            this.toolTip1.SetToolTip(this.KaynakcaKontrol, "Kaynakça standartları kontrolü");
+            this.KaynakcaKontrol.UseVisualStyleBackColor = false;
             this.KaynakcaKontrol.Click += new System.EventHandler(this.KaynakcaKontrol_Click);
             // 
             // AlintiKontrol
             // 
-            this.AlintiKontrol.Location = new System.Drawing.Point(702, 70);
+            this.AlintiKontrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.AlintiKontrol.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.AlintiKontrol.Location = new System.Drawing.Point(40, 32);
             this.AlintiKontrol.Name = "AlintiKontrol";
-            this.AlintiKontrol.Size = new System.Drawing.Size(101, 64);
+            this.AlintiKontrol.Size = new System.Drawing.Size(101, 52);
             this.AlintiKontrol.TabIndex = 7;
             this.AlintiKontrol.Text = "Alıntı";
-            this.AlintiKontrol.UseVisualStyleBackColor = true;
+            this.toolTip1.SetToolTip(this.AlintiKontrol, "Alıntı (\"...\") kelime adedi kontrolü");
+            this.AlintiKontrol.UseVisualStyleBackColor = false;
+            this.AlintiKontrol.Click += new System.EventHandler(this.AlintiKontrol_Click);
             // 
             // SekillerListesi
             // 
-            this.SekillerListesi.Location = new System.Drawing.Point(702, 140);
+            this.SekillerListesi.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.SekillerListesi.Location = new System.Drawing.Point(157, 32);
             this.SekillerListesi.Name = "SekillerListesi";
-            this.SekillerListesi.Size = new System.Drawing.Size(101, 67);
+            this.SekillerListesi.Size = new System.Drawing.Size(101, 52);
             this.SekillerListesi.TabIndex = 8;
             this.SekillerListesi.Text = "Şekiller Listesi";
+            this.toolTip1.SetToolTip(this.SekillerListesi, "Şekiller listesi metin \r\niçerisi uyumluluk kontrolü");
             this.SekillerListesi.UseVisualStyleBackColor = true;
+            this.SekillerListesi.Click += new System.EventHandler(this.SekillerListesi_Click);
             // 
             // TablolarListesi
             // 
-            this.TablolarListesi.Location = new System.Drawing.Point(702, 220);
+            this.TablolarListesi.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.TablolarListesi.Location = new System.Drawing.Point(157, 102);
             this.TablolarListesi.Name = "TablolarListesi";
-            this.TablolarListesi.Size = new System.Drawing.Size(101, 69);
+            this.TablolarListesi.Size = new System.Drawing.Size(101, 52);
             this.TablolarListesi.TabIndex = 9;
             this.TablolarListesi.Text = "Tablolar Listesi";
+            this.toolTip1.SetToolTip(this.TablolarListesi, " Tablolar listesi metin \r\niçerisi uyumluluk kontrolü");
             this.TablolarListesi.UseVisualStyleBackColor = true;
             // 
             // BaslikSayfaNumaralari
             // 
-            this.BaslikSayfaNumaralari.Location = new System.Drawing.Point(702, 295);
+            this.BaslikSayfaNumaralari.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.BaslikSayfaNumaralari.Location = new System.Drawing.Point(276, 32);
             this.BaslikSayfaNumaralari.Name = "BaslikSayfaNumaralari";
-            this.BaslikSayfaNumaralari.Size = new System.Drawing.Size(101, 68);
+            this.BaslikSayfaNumaralari.Size = new System.Drawing.Size(101, 52);
             this.BaslikSayfaNumaralari.TabIndex = 10;
             this.BaslikSayfaNumaralari.Text = "Başlık Sayfa Numaraları";
+            this.toolTip1.SetToolTip(this.BaslikSayfaNumaralari, "İçindekiler başlık \r\nsayfa numarası kontrolü");
             this.BaslikSayfaNumaralari.UseVisualStyleBackColor = true;
             this.BaslikSayfaNumaralari.Click += new System.EventHandler(this.BaslikSayfaNumaralari_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(809, 226);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 13);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "henüz bitmedi";
-            // 
             // OnsozTesekkur
             // 
-            this.OnsozTesekkur.Location = new System.Drawing.Point(702, 373);
+            this.OnsozTesekkur.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.OnsozTesekkur.Location = new System.Drawing.Point(40, 172);
             this.OnsozTesekkur.Name = "OnsozTesekkur";
-            this.OnsozTesekkur.Size = new System.Drawing.Size(101, 78);
+            this.OnsozTesekkur.Size = new System.Drawing.Size(101, 52);
             this.OnsozTesekkur.TabIndex = 12;
             this.OnsozTesekkur.Text = "Önsöz Teşekkür";
+            this.toolTip1.SetToolTip(this.OnsozTesekkur, "Önsöz ilk paragraf \r\nteşekkür ibaresi kontrolü");
             this.OnsozTesekkur.UseVisualStyleBackColor = true;
             // 
             // BeyanTarihAd
             // 
-            this.BeyanTarihAd.Location = new System.Drawing.Point(1008, 285);
+            this.BeyanTarihAd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.BeyanTarihAd.Location = new System.Drawing.Point(276, 172);
             this.BeyanTarihAd.Name = "BeyanTarihAd";
-            this.BeyanTarihAd.Size = new System.Drawing.Size(101, 64);
+            this.BeyanTarihAd.Size = new System.Drawing.Size(101, 52);
             this.BeyanTarihAd.TabIndex = 13;
             this.BeyanTarihAd.Text = "Beyan Tarih ve Ad ";
+            this.toolTip1.SetToolTip(this.BeyanTarihAd, "Beyan yazar ve tarih kotrolü");
             this.BeyanTarihAd.UseVisualStyleBackColor = true;
             // 
             // OnsozTarihAd
             // 
-            this.OnsozTarihAd.Location = new System.Drawing.Point(1008, 22);
+            this.OnsozTarihAd.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.OnsozTarihAd.Location = new System.Drawing.Point(157, 172);
             this.OnsozTarihAd.Name = "OnsozTarihAd";
-            this.OnsozTarihAd.Size = new System.Drawing.Size(101, 64);
+            this.OnsozTarihAd.Size = new System.Drawing.Size(101, 52);
             this.OnsozTarihAd.TabIndex = 14;
             this.OnsozTarihAd.Text = "Önsöz Tarih ve Ad";
+            this.toolTip1.SetToolTip(this.OnsozTarihAd, "Önsöz yazar ve tarih kotrolü");
             this.OnsozTarihAd.UseVisualStyleBackColor = true;
             // 
             // TezOnay
             // 
-            this.TezOnay.Location = new System.Drawing.Point(1008, 143);
+            this.TezOnay.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.TezOnay.Location = new System.Drawing.Point(276, 102);
             this.TezOnay.Name = "TezOnay";
-            this.TezOnay.Size = new System.Drawing.Size(101, 64);
+            this.TezOnay.Size = new System.Drawing.Size(101, 52);
             this.TezOnay.TabIndex = 15;
             this.TezOnay.Text = "Tez Onay";
+            this.toolTip1.SetToolTip(this.TezOnay, "Tez için gerekli onay\r\nimzaları alıdı mı kontrolü");
             this.TezOnay.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // progressBar1
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(803, 32);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(150, 13);
-            this.label2.TabIndex = 16;
-            this.label2.Text = "Kaynakça standartları kontrolü";
+            this.progressBar1.Location = new System.Drawing.Point(66, 191);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(261, 23);
+            this.progressBar1.TabIndex = 25;
             // 
-            // label3
+            // label1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(809, 96);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(160, 13);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Alıntı (\"...\") kelime adedi kontrolü";
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(47, 26);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(405, 26);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "PLAGIARISM CONTROL PROGRAM";
             // 
-            // label4
+            // groupBox1
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(809, 167);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(124, 26);
-            this.label4.TabIndex = 18;
-            this.label4.Text = "Şekiller listesi metin \r\niçerisi uyumluluk kontrolü";
+            this.groupBox1.Controls.Add(this.progressBar2);
+            this.groupBox1.Controls.Add(this.BeyanTarihAd);
+            this.groupBox1.Controls.Add(this.KaynakcaKontrol);
+            this.groupBox1.Controls.Add(this.AlintiKontrol);
+            this.groupBox1.Controls.Add(this.SekillerListesi);
+            this.groupBox1.Controls.Add(this.TezOnay);
+            this.groupBox1.Controls.Add(this.TablolarListesi);
+            this.groupBox1.Controls.Add(this.OnsozTarihAd);
+            this.groupBox1.Controls.Add(this.BaslikSayfaNumaralari);
+            this.groupBox1.Controls.Add(this.OnsozTesekkur);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.groupBox1.ForeColor = System.Drawing.Color.Black;
+            this.groupBox1.Location = new System.Drawing.Point(36, 385);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(416, 281);
+            this.groupBox1.TabIndex = 27;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "KONTROLLER";
             // 
-            // label5
+            // progressBar2
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(803, 323);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(118, 26);
-            this.label5.TabIndex = 19;
-            this.label5.Text = "İçindekiler başlık \r\nsayfa numarası kontrolü";
+            this.progressBar2.Location = new System.Drawing.Point(66, 242);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(261, 23);
+            this.progressBar2.TabIndex = 26;
             // 
-            // label6
+            // groupBox2
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(809, 406);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(122, 26);
-            this.label6.TabIndex = 20;
-            this.label6.Text = "Önsöz ilk paragraf \r\nteşekkür ibaresi kontrolü";
+            this.groupBox2.Controls.Add(this.button5);
+            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.progressBar1);
+            this.groupBox2.Controls.Add(this.button3);
+            this.groupBox2.Controls.Add(this.button4);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.groupBox2.Location = new System.Drawing.Point(36, 79);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox2.Size = new System.Drawing.Size(416, 232);
+            this.groupBox2.TabIndex = 28;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "DOSYA İŞLEMLERİ";
             // 
-            // label7
+            // pictureBox1
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(987, 352);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(138, 13);
-            this.label7.TabIndex = 21;
-            this.label7.Text = "Beyan yazar ve tarih kotrolü";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1005, 213);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(116, 26);
-            this.label8.TabIndex = 22;
-            this.label8.Text = "Tez için gerekli onay\r\nimzaları alıdı mı kontrolü";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(987, 89);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(138, 13);
-            this.label9.TabIndex = 23;
-            this.label9.Text = "Önsöz yazar ve tarih kotrolü";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(803, 263);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(124, 26);
-            this.label10.TabIndex = 24;
-            this.label10.Text = "Tablolar listesi metin \r\niçerisi uyumluluk kontrolü";
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(2, 1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(31, 30);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 29;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1137, 520);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.TezOnay);
-            this.Controls.Add(this.OnsozTarihAd);
-            this.Controls.Add(this.BeyanTarihAd);
-            this.Controls.Add(this.OnsozTesekkur);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(74)))), ((int)(((byte)(131)))));
+            this.ClientSize = new System.Drawing.Size(1029, 677);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.BaslikSayfaNumaralari);
-            this.Controls.Add(this.TablolarListesi);
-            this.Controls.Add(this.SekillerListesi);
-            this.Controls.Add(this.AlintiKontrol);
-            this.Controls.Add(this.KaynakcaKontrol);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.richTextBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -337,20 +336,18 @@
         private System.Windows.Forms.Button SekillerListesi;
         private System.Windows.Forms.Button TablolarListesi;
         private System.Windows.Forms.Button BaslikSayfaNumaralari;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button OnsozTesekkur;
         private System.Windows.Forms.Button BeyanTarihAd;
         private System.Windows.Forms.Button OnsozTarihAd;
         private System.Windows.Forms.Button TezOnay;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
