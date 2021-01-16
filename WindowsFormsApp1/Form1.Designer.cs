@@ -53,6 +53,8 @@
             this.progressBar2 = new System.Windows.Forms.ProgressBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.sonuclar = new System.Windows.Forms.Button();
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -164,6 +166,7 @@
             this.TablolarListesi.Text = "Tablolar Listesi";
             this.toolTip1.SetToolTip(this.TablolarListesi, " Tablolar listesi metin \r\niçerisi uyumluluk kontrolü");
             this.TablolarListesi.UseVisualStyleBackColor = true;
+            this.TablolarListesi.Click += new System.EventHandler(this.TablolarListesi_Click);
             // 
             // BaslikSayfaNumaralari
             // 
@@ -187,6 +190,7 @@
             this.OnsozTesekkur.Text = "Önsöz Teşekkür";
             this.toolTip1.SetToolTip(this.OnsozTesekkur, "Önsöz ilk paragraf \r\nteşekkür ibaresi kontrolü");
             this.OnsozTesekkur.UseVisualStyleBackColor = true;
+            this.OnsozTesekkur.Click += new System.EventHandler(this.OnsozTesekkur_Click);
             // 
             // BeyanTarihAd
             // 
@@ -198,6 +202,7 @@
             this.BeyanTarihAd.Text = "Beyan Tarih ve Ad ";
             this.toolTip1.SetToolTip(this.BeyanTarihAd, "Beyan yazar ve tarih kotrolü");
             this.BeyanTarihAd.UseVisualStyleBackColor = true;
+            this.BeyanTarihAd.Click += new System.EventHandler(this.BeyanTarihAd_Click);
             // 
             // OnsozTarihAd
             // 
@@ -209,6 +214,7 @@
             this.OnsozTarihAd.Text = "Önsöz Tarih ve Ad";
             this.toolTip1.SetToolTip(this.OnsozTarihAd, "Önsöz yazar ve tarih kotrolü");
             this.OnsozTarihAd.UseVisualStyleBackColor = true;
+            this.OnsozTarihAd.Click += new System.EventHandler(this.OnsozTarihAd_Click);
             // 
             // TezOnay
             // 
@@ -220,6 +226,7 @@
             this.TezOnay.Text = "Tez Onay";
             this.toolTip1.SetToolTip(this.TezOnay, "Tez için gerekli onay\r\nimzaları alıdı mı kontrolü");
             this.TezOnay.UseVisualStyleBackColor = true;
+            this.TezOnay.Click += new System.EventHandler(this.TezOnay_Click);
             // 
             // progressBar1
             // 
@@ -254,7 +261,7 @@
             this.groupBox1.Controls.Add(this.OnsozTesekkur);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
-            this.groupBox1.Location = new System.Drawing.Point(36, 385);
+            this.groupBox1.Location = new System.Drawing.Point(36, 388);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -262,6 +269,8 @@
             this.groupBox1.TabIndex = 27;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "KONTROLLER";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            this.groupBox1.MouseHover += new System.EventHandler(this.groupBox1_MouseHover);
             // 
             // progressBar2
             // 
@@ -299,15 +308,26 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // sonuclar
+            // 
+            this.sonuclar.Location = new System.Drawing.Point(254, 328);
+            this.sonuclar.Name = "sonuclar";
+            this.sonuclar.Size = new System.Drawing.Size(88, 52);
+            this.sonuclar.TabIndex = 26;
+            this.sonuclar.Text = "Sonuç Kontrol";
+            this.sonuclar.UseVisualStyleBackColor = true;
+            this.sonuclar.Click += new System.EventHandler(this.sonuclar_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(74)))), ((int)(((byte)(131)))));
             this.ClientSize = new System.Drawing.Size(1029, 677);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.sonuclar);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.richTextBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -348,6 +368,8 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ProgressBar progressBar2;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button sonuclar;
+        private System.Windows.Forms.ToolTip toolTip2;
     }
 }
 

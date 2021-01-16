@@ -30,6 +30,7 @@ namespace WindowsFormsApp1
         List<string> sekillerTbl2 = new List<string>();
         List<string> Genl_Sekiller = new List<string>();
         Dictionary<string, int> basliklar = new Dictionary<string, int>();
+        Sonuc sonuc =new Sonuc();
 
         string TezYazarı = null;//Tez yazarının adı
         object fileName;
@@ -97,10 +98,10 @@ namespace WindowsFormsApp1
                 //}
             }
 
-            foreach (var item in id_ler)
-            {
-                MessageBox.Show((item).ToString());
-            }
+            //foreach (var item in id_ler)
+            //{
+            //    MessageBox.Show((item).ToString());
+            //}
         }
         void Kaynakca()
         {
@@ -131,22 +132,63 @@ namespace WindowsFormsApp1
                 }
 
             }
+            
 
-            for (int i = baslangic + 1; i < bitis; i++)
+
+            for (int i = baslangic; i < bitis; i++)//bitise kadar gitmesinin sebebi kaynakların içine tekrardan kontrol etmesin diye
             {
-                string[] spl = richTextBox1.Lines[i].Split('[');//köseli parantezlerin başlangıcına göre böldük
-
-                for (int j = 1; j < spl.Length; j = j + 2)//sağ tarafa ] ler sol tarafa rakamlar düştüğü için herzamana tekleri almaya çalıştık 
+                string dokuman = richTextBox1.Lines[i];
+                string[] tirnak = dokuman.Split('[').Where(x => x.Contains("]")).Select(x => new string(x.TakeWhile(c => c != ']').ToArray())).ToArray();
+                for (int j = 0; j < tirnak.Length; j++)
                 {
-                    kose.Add(int.Parse(spl[j].Split(']')[0]));//köseli parantezin bitişinden böldük ve herzaman elimizdeki ilk elaman sayı oluyor
+
+                    int kontrol = tirnak[j].IndexOf(",");
+                    if (kontrol >= 0)
+                    {
+                        string[] spl = tirnak[j].Split(',');
+                        for (int k = 0; k < spl.Length; k++)
+                        {
+                            string sayi = spl[k].Trim();
+                            kose.Add(int.Parse(sayi));
+                            //MessageBox.Show(sayi);
+                        }
+                    }
+                    else
+                    {
+                        // MessageBox.Show(tirnak[j]);
+                        kose.Add(int.Parse(tirnak[j]));
+                    }
                 }
-            }
 
-            foreach (var item in kose)
-            {
-                MessageBox.Show((item).ToString());
 
+                //int kontrol = richTextBox1.Lines[i].IndexOf("[");
+                //if (kontrol>=0)
+                //{  
+                //string[] spl = richTextBox1.Lines[i].Split('[');
+
+                //for (int j = 1; j < spl.Length; j = j + 2)
+                //{
+                //    // iid_ler.AddLast(spl[j].Substring(0));
+                //    //spl[j].Split(']');
+                //    id_ler.Add(int.Parse(spl[j].Split(']')[0]));
+                //}
+                //}
             }
+            //for (int i = baslangic + 1; i < bitis; i++)
+            //{
+            //    string[] spl = richTextBox1.Lines[i].Split('[');//köseli parantezlerin başlangıcına göre böldük
+
+            //    for (int j = 1; j < spl.Length; j = j + 2)//sağ tarafa ] ler sol tarafa rakamlar düştüğü için herzamana tekleri almaya çalıştık 
+            //    {
+            //        kose.Add(int.Parse(spl[j].Split(']')[0]));//köseli parantezin bitişinden böldük ve herzaman elimizdeki ilk elaman sayı oluyor
+            //    }
+            //}
+
+            //foreach (var item in kose)
+            //{
+            //    MessageBox.Show((item).ToString());
+
+            //}
 
         }
 
@@ -166,21 +208,23 @@ namespace WindowsFormsApp1
             }
 
             string[] tirnak = dokuman.Split('“').Where(x => x.Contains("”")).Select(x => new string(x.TakeWhile(c => c != '”').ToArray())).ToArray();
-            for (int i = 0; i < tirnak.Length; i++)
-            {
-                MessageBox.Show(tirnak[i]);
-            }
 
             for (int i = 0; i < tirnak.Length; i++)
             {
                 string[] spl_adet = tirnak[i].Split(' ');
                 if (spl_adet.Length > 50)
                 {
-                    MessageBox.Show("Kardeş bu alıntı değil resmen copy past olmuş ayıptır güahtır !!!");
+                    sonuc.listBox1.Items.Clear();
+                    sonuc.listBox1.Items.Add("Alıntı sınırı aşılmıştır!");
+                    sonuc.listBox1.Items.Add("Alıntı adededi:" + spl_adet.Length);
+                    sonuc.listBox2.Items.Add("\nAlıntı sınırı aşılmıştır!");
+                    sonuc.listBox2.Items.Add("Alıntı adededi:" + spl_adet.Length+"\n");
+
+                    //MessageBox.Show("Kardeş bu alıntı değil resmen copy past olmuş ayıptır günahtır !!!");
                 }
                 else
                 {
-                    MessageBox.Show("Alıntı adededi:" + spl_adet.Length);
+                   // MessageBox.Show("Alıntı adededi:" + spl_adet.Length);
                 }
             }
         }
@@ -655,7 +699,10 @@ namespace WindowsFormsApp1
             int deger = b.IndexOf("teşekkür");
             if (deger >= 0)
             {
-                MessageBox.Show("Önsözün ilk paragrafın da teşekkür ifadesi kullanılmaz!");
+                //MessageBox.Show("Önsözün ilk paragrafın da teşekkür ifadesi kullanılmaz!");
+                sonuc.listBox1.Items.Clear();
+                sonuc.listBox1.Items.Add("Önsözün ilk paragrafın da teşekkür ifadesi kullanılmaz!");
+                sonuc.listBox2.Items.Add("\nÖnsözün ilk paragrafın da teşekkür ifadesi kullanılmaz!\n");
             }
         }
 
@@ -675,37 +722,55 @@ namespace WindowsFormsApp1
             while (i < parCount)
             {
                 i++;
-                if (DocPar[i].Range.Text == "TEZ ONAYI\r")
+                string tezonay = DocPar[i].Range.Text.Trim();
+                if (tezonay== "TEZ ONAYI\r" || tezonay == "TEZ ONAYI")
                 {
                     baslangic = i;
                     break;
                 }
+                
             }
             int bitis = 0;
             i = 0;
             while (i < parCount)
             {
                 i++;
-                if (DocPar[i].Range.Text == "BEYAN\r")
+                 string beyan = DocPar[i].Range.Text.Trim();
+                if (beyan== "BEYAN\r" || beyan == "BEYAN")
                 {
                     bitis = i;
                     break;
                 }
+               
             }
+            bool onayKontrol = false;
             while (baslangic < bitis)
             {
-                string tezonay = DocPar[baslangic].Range.Text.ToLower();
-                int onaylarım = tezonay.IndexOf("oybirliği");
+                baslangic++;
+               
+                int onaylarım = DocPar[baslangic].Range.Text.ToLower().IndexOf("oybirliği");
                 if (onaylarım > 0)
                 {
-                    MessageBox.Show("Test");
+
+                    sonuc.listBox1.Items.Clear();
+                    sonuc.listBox1.Items.Add("Tez Onayı Alınmıştır!");
+                    sonuc.listBox2.Items.Add("Tez Onayı");
+                    sonuc.listBox2.Items.Add("Tez Onayı Alınmıştır!\n");
+
+                    onayKontrol = true;
                     break;
-                }
-                baslangic++;
+                }             
+            }
+            if (onayKontrol==false)
+            {
+                sonuc.listBox1.Items.Clear();
+                sonuc.listBox1.Items.Add("Tez Onayı Alınmamıştır!");
+                sonuc.listBox2.Items.Add("Tez Onayı");
+                sonuc.listBox2.Items.Add("Tez Onayı Alınmamıştır!\n");
+
 
             }
-            //document.Close();
-            //application.Quit();
+
         }
 
         /*
@@ -740,57 +805,77 @@ namespace WindowsFormsApp1
                     break;
                 }
             }
+            bool tarih_kontrol = false;
             while (bitis >= baslangic)
             {
                 string tarihKontrol = DocPar[bitis].Range.Text.ToLower();
                 int tarih = tarihKontrol.IndexOf("20");
                 if (tarih > 0)
                 {
+                    tarih_kontrol = true;
                     if (DocPar[bitis - 1].Range.Text.ToLower() != "\r")
                     {
                         string yazar = DocPar[bitis - 1].Range.Text;
                         if (yazar == TezYazarı)
                         {
-                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
-                            MessageBox.Show(DocPar[bitis - 1].Range.Text.ToLower());                         
-                            break;
-                        }
-                        else {
-                            MessageBox.Show("Yazar adı belirtilmemiştir");
-                            break;
-                        }
-                    }
-                    else if (DocPar[bitis - 2].Range.Text.ToLower() != "\r") {
-                        string yazar = DocPar[bitis - 2].Range.Text;
-                        if (yazar == TezYazarı)
-                        {
-                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
-                            MessageBox.Show(DocPar[bitis - 2].Range.Text.ToLower());
+                           // MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                          //  MessageBox.Show(DocPar[bitis - 1].Range.Text.ToLower());
                             break;
                         }
                         else
                         {
-                            MessageBox.Show("Yazar adı belirtilmemiştir");
+                            sonuc.listBox1.Items.Clear();
+                            sonuc.listBox1.Items.Add("Önsöz Kontrolü\nYazar adı belirtilmemiştir!");
+                            sonuc.listBox2.Items.Add("\n\nÖnsöz Kontrolü\nYazar adı belirtilmemiştir!\n\n");
                             break;
                         }
                     }
-                    else {
+                    else if (DocPar[bitis - 2].Range.Text.ToLower() != "\r")
+                    {
+                        string yazar = DocPar[bitis - 2].Range.Text;
+                        if (yazar == TezYazarı)
+                        {
+                            //MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                           // MessageBox.Show(DocPar[bitis - 2].Range.Text.ToLower());
+                            break;
+                        }
+                        else
+                        {
+                            sonuc.listBox1.Items.Clear();
+                            sonuc.listBox1.Items.Add("Önsöz Kontrolü\nYazar adı belirtilmemiştir!");
+                            sonuc.listBox2.Items.Add("\n\nÖnsöz Kontrolü\nYazar adı belirtilmemiştir!\n\n");
+
+                            break;
+                        }
+                    }
+                    else
+                    {
 
                         string yazar = DocPar[bitis - 3].Range.Text;
                         if (yazar == TezYazarı)
                         {
-                            MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
-                            MessageBox.Show(DocPar[bitis - 3].Range.Text.ToLower());
+                           // MessageBox.Show(DocPar[bitis].Range.Text.ToLower());
+                            //MessageBox.Show(DocPar[bitis - 3].Range.Text.ToLower());
                             break;
                         }
                         else
                         {
-                            MessageBox.Show("Yazar adı belirtilmemiştir");
+                            sonuc.listBox1.Items.Clear();
+                            sonuc.listBox1.Items.Add("Önsöz Kontrolü\nYazar adı belirtilmemiştir!");
+                            sonuc.listBox2.Items.Add("\n\nÖnsöz Kontrolü\nYazar adı belirtilmemiştir!\n\n");
                             break;
                         }
                     }
                 }
+               
                 bitis--;
+            }
+            if (tarih_kontrol==false)
+            {
+                sonuc.listBox1.Items.Clear();
+                sonuc.listBox1.Items.Add("Önsöz Kontrolü\nTarih belirtilmemiştir!\n");
+                sonuc.listBox2.Items.Add("\n\nÖnsöz Kontrolü\nTarih belirtilmemiştir!\n\n");
+
             }
 
         }
@@ -843,7 +928,11 @@ namespace WindowsFormsApp1
                         }
                         else
                         {
-                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            sonuc.listBox1.Items.Clear();
+                            sonuc.listBox1.Items.Add("Beyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox1.Items.Add("Yazar adı belirtilmemiştir!");
+                            sonuc.listBox2.Items.Add("\nBeyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox2.Items.Add("Yazar adı belirtilmemiştir!\n");
                             break;
                         }
                     }
@@ -858,7 +947,11 @@ namespace WindowsFormsApp1
                         }
                         else
                         {
-                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            sonuc.listBox1.Items.Clear();
+                            sonuc.listBox1.Items.Add("Beyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox1.Items.Add("Yazar adı belirtilmemiştir!");
+                            sonuc.listBox2.Items.Add("\nBeyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox2.Items.Add("Yazar adı belirtilmemiştir!\n");
                             break;
                         }
                     }
@@ -873,7 +966,11 @@ namespace WindowsFormsApp1
                         }
                         else
                         {
-                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            sonuc.listBox1.Items.Clear();
+                            sonuc.listBox1.Items.Add("Beyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox1.Items.Add("Yazar adı belirtilmemiştir!");
+                            sonuc.listBox2.Items.Add("\nBeyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox2.Items.Add("Yazar adı belirtilmemiştir!\n");
                             break;
                         }
                     }
@@ -892,7 +989,11 @@ namespace WindowsFormsApp1
                         }
                         else
                         {
-                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            sonuc.listBox1.Items.Clear();
+                            sonuc.listBox1.Items.Add("Beyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox1.Items.Add("Tarih belirtilmemiştir!");
+                            sonuc.listBox2.Items.Add("\nBeyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox2.Items.Add("Tarih belirtilmemiştir!\n");
                             break;
                         }
                     }
@@ -908,7 +1009,11 @@ namespace WindowsFormsApp1
                         }
                         else
                         {
-                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            sonuc.listBox1.Items.Clear();
+                            sonuc.listBox1.Items.Add("Beyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox1.Items.Add("Tarih belirtilmemiştir!");
+                            sonuc.listBox2.Items.Add("\nBeyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox2.Items.Add("Tarih belirtilmemiştir!\n");
                             break;
                         }
                     }
@@ -924,7 +1029,13 @@ namespace WindowsFormsApp1
                         }
                         else
                         {
-                            MessageBox.Show("Yazar adı belirtilmemiştir!");
+                            sonuc.listBox1.Items.Clear();
+                            sonuc.listBox1.Items.Add("Beyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox1.Items.Add("Tarih belirtilmemiştir!");
+                            sonuc.listBox2.Items.Add("\nBeyan tarih ve yazar adı kontrolü ");
+                            sonuc.listBox2.Items.Add("Tarih belirtilmemiştir!\n");
+                            sonuc.listBox2.Items.Add("");
+
                             break;
                         }
                     }
@@ -1001,12 +1112,13 @@ namespace WindowsFormsApp1
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        { 
+        {
+            //toolTip2.Active = true;
+           groupBox1.Enabled = false;
         }
        
         Microsoft.Office.Interop.Word._Document document;
         Microsoft.Office.Interop.Word._Application application;
-
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -1072,6 +1184,7 @@ namespace WindowsFormsApp1
 
             timer1.Enabled = true;
             WordAc();
+            groupBox1.Enabled = true;
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -1084,9 +1197,10 @@ namespace WindowsFormsApp1
 
         private void AlintiKontrol_Click(object sender, EventArgs e)
         {
-            timer1.Enabled = true;
-
+            sonuc.listBox1.Visible = true;
+            sonuc.listBox2.Visible = false;
             TirnakKontrol();
+            sonuc.Show();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -1107,6 +1221,8 @@ namespace WindowsFormsApp1
 
         private void SekillerListesi_Click(object sender, EventArgs e)
         {
+            sonuc.listBox1.Visible = true;
+            sonuc.listBox2.Visible = false;
             timer1.Enabled = true;
             SekilKontrol();
             GenelSekilKontrolu();
@@ -1124,33 +1240,139 @@ namespace WindowsFormsApp1
 
         private void BaslikSayfaNumaralari_Click(object sender, EventArgs e)
         {
+            sonuc.listBox1.Visible = true;
+            sonuc.listBox2.Visible = false;
             IcindekilerBaslikKontrolu();
             IcindekilerBaslikKontroluDevamıBtn3();
         }
 
         private void KaynakcaKontrol_Click(object sender, EventArgs e)
         {
+           
+            sonuc.listBox1.Visible = true;
+            sonuc.listBox2.Visible = false;
             KoseliParantez();
             Kaynakca();
-            //karşılaştırma
-            int length = 0;
-            if (id_ler.Count > kose.Count)
+            sonuc.listBox1.Items.Clear();
+            sonuc.listBox2.Items.Add("\n");
+            //Metin içerisinde olan atıflar kaynakçada mevcut mu kontrolü.
+            bool Genelvarlık = false;
+            for (int i = 0; i < id_ler.Count; i++)
             {
-                length = id_ler.Count;
+                //  KoseliParantez düzeltildi ve şimdi kaynakçda düzgünse karşılaştırma yapılacak sadece sonra bitiyor
+                for (int j = 0; j < kose.Count; j++)
+                {
+                    if (id_ler[i] == kose[j])
+                    {
+                        Genelvarlık = true;
+                        break;
+                    }
+                }
+                if (Genelvarlık == false)
+                {
+                    sonuc.listBox2.Items.Add(id_ler[i] + "no lu atıf yapılan kaynak kaynakçada belirtilmemiştir!");
+                    sonuc.listBox1.Items.Add(id_ler[i] + "no lu atıf yapılan kaynak kaynakçada belirtilmemiştir!");
+                }//Metin içerisinde olan atıflar kaynakçada bulunmuyor mu? Kontrolü
+                else
+                {
+                  //  sonuc.listBox2.Items.Add(id_ler[i] + "no lu atıf yapılan kaynak kaynakçada belirtilmiştir!");
+                  //  sonuc.listBox1.Items.Add(id_ler[i] + "no lu atıf yapılan kaynak kaynakçada belirtilmiştir!");
+                    Genelvarlık = false; 
+                }//Metin içerisinde olan atıflar kaynakçada bulunuyor mu? Kontrolü
             }
-            else {
-                length = kose.Count;
-            }
-            for (int i = 0; i <length; i++)
+
+            sonuc.listBox2.Items.Add("\n");
+            //Kaynakçada bulunan her kaynak numarasına metin içerisinde atıf yapılmış mı kontrolü.
+            bool kaynakcaVarlik = false;
+            for (int i = 0; i < kose.Count; i++)
             {
-              //  KoseliParantez düzeltildi ve şimdi kaynakçda düzgünse karşılaştırma yapılacak sadece sonra bitiyor
-
-                //if ()
-                //{
-
-                //}
+                //  KoseliParantez düzeltildi ve şimdi kaynakçda düzgünse karşılaştırma yapılacak sadece sonra bitiyor
+                for (int j = 0; j < id_ler.Count; j++)
+                {
+                    if (id_ler[j] == kose[i])
+                    {
+                        kaynakcaVarlik = true;
+                        break;
+                    }
+                }
+                if (kaynakcaVarlik == false)
+                {
+                    sonuc.listBox2.Items.Add(kose[i] + "'no lu kaynakça maddesine metin içerisinde atıf yapılmamıştır!");
+                    sonuc.listBox1.Items.Add(kose[i] + "'no lu kaynakça maddesine metin içerisinde atıf yapılmamıştır!");
+                }//Metin içerisinde olan atıflar kaynakçada bulunmuyor mu? Kontrolü
+                else
+                {
+                   // sonuc.listBox2.Items.Add(kose[i] + "'no lu kaynakça maddesine metin içerisinde atıf yapılmıştır!");
+                    //sonuc.listBox1.Items.Add(kose[i] + "'no lu kaynakça maddesine metin içerisinde atıf yapılmıştır!");
+                    kaynakcaVarlik = false;
+                }//Metin içerisinde olan atıflar kaynakçada bulunuyor mu? Kontrolü
             }
+            sonuc.listBox2.Items.Add("\n");
+            sonuc.Show();
+        }
 
+        private void sonuclar_Click(object sender, EventArgs e)
+        {
+            sonuc.listBox1.Visible = false;
+            sonuc.listBox2.Visible = true;
+            sonuc.Show();
+
+        }
+
+        private void TezOnay_Click(object sender, EventArgs e)
+        {
+            sonuc.listBox1.Visible = true;
+            sonuc.listBox2.Visible = false;
+            TezOnayKontrolu();
+            sonuc.Show();
+        }
+
+        private void TablolarListesi_Click(object sender, EventArgs e)
+        {
+            sonuc.listBox1.Visible = true;
+            sonuc.listBox2.Visible = false;
+            sonuc.Show();
+        }
+
+        private void OnsozTesekkur_Click(object sender, EventArgs e)
+        {     
+            sonuc.listBox1.Visible = true;
+            sonuc.listBox2.Visible = false;
+            OnsozTesekkurKontrol();
+            sonuc.Show();
+        }
+
+        private void OnsozTarihAd_Click(object sender, EventArgs e)
+        {       
+            sonuc.listBox1.Visible = true;
+            sonuc.listBox2.Visible = false;
+            YazarAdi();
+            OnsozTarihveAdKontrolu();
+            sonuc.Show();
+        }
+
+        private void BeyanTarihAd_Click(object sender, EventArgs e)
+        {
+            YazarAdi();
+            BeyanTarihveAdKontrolu();
+            sonuc.listBox1.Visible = true;
+            sonuc.listBox2.Visible = false;
+            sonuc.Show();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+           
+            //toolTip1.SetToolTip(this.groupBox1, "Lütfen önce bir tez dosyası seçip yükleyiniz!");
+
+        }
+
+        private void groupBox1_MouseHover(object sender, EventArgs e)
+        {
+            //if (groupBox1.Enabled == false)
+            //{
+            //    toolTip2.Active = true;
+            //}
         }
     }
     } 
