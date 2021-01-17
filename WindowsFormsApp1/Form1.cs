@@ -30,11 +30,132 @@ namespace WindowsFormsApp1
         List<string> sekillerTbl2 = new List<string>();
         List<string> Genl_Sekiller = new List<string>();
         Dictionary<string, int> basliklar = new Dictionary<string, int>();
+        List<string> tabloLst = new List<string>();//İçindekiler tablo kontrol
+        List<string> Genl_Tablolar = new List<string>();//Giriş'ten sonra metnin içinde tablo isminin kontrolü
         Sonuc sonuc =new Sonuc();
 
         string TezYazarı = null;//Tez yazarının adı
         object fileName;
         OpenFileDialog ofd;
+
+        /*
+         *TabloKontrol()
+         *
+         *Tez metni içerisinde verilen tablolar listesinde yer alan tabloların bulundukları sayfa numaraları ilgili tabloların kullanıldığı
+         *sayfalar tutarlı olmak zorundadır.
+         **/
+        void TabloKontrol()
+        {
+            int baslangic = 0;
+            int bitis = 0;
+            for (int i = 0; i < richTextBox1.Lines.Length; i++)
+            {
+                string tablolar = (richTextBox1.Lines[i].Trim()).ToUpper();
+                if ("TABLOLAR LİSTESİ".Equals(tablolar) || "TABLO".Equals(tablolar) || "\tTABLOLAR LİSTESİ".Equals(tablolar) || "\nTABLOLAR LİSTESİ".Equals(tablolar) || "\rTABLOLAR LİSTESİ".Equals(tablolar))
+                {
+                    baslangic = i;
+                }
+
+            }
+            for (int i = baslangic; i < richTextBox1.Lines.Length; i++)
+            {
+                string tablolar = (richTextBox1.Lines[i].Trim()).ToUpper();
+                // string ekler= richTextBox1.Lines[i].Trim();
+                if ("EKLER LİSTESİ".Equals(tablolar) || "EKLER".Equals(tablolar))
+                {
+                    bitis = i;
+                    break;
+                }
+                else if ("SİMGELER VE KISALTMALAR".Equals(tablolar) || "SİMGELER".Equals(tablolar))
+                {
+                    bitis = i;
+                    break;
+                }
+
+            }
+
+            tabloLst.Clear();
+
+            for (int i = baslangic + 1; i < bitis; i++)
+            {
+                //sekillerTbl1 = richTextBox1.Lines[i].Split('Ş').Where(x => x.Contains(".")).Select(x => new string(x.TakeWhile(c => c != '.').ToArray())).ToArray();
+                if (richTextBox1.Lines[i].IndexOf('T') == 0)
+                {
+                    int ilknokta = richTextBox1.Lines[i].IndexOf('.');//satırda geçen ilk noktanın indisini alır.
+                    int ikincinokta = richTextBox1.Lines[i].IndexOf('.', ilknokta + 1);//satırın ilk noktadan sonraki boşluğunun tespitini yapar
+                    tabloLst.Add(richTextBox1.Lines[i].Substring(0, ikincinokta + 1));//satırın ilk karakteriyle geçen ilk noktadan sonraki boşluğun arasını alır.
+                }
+            }
+
+
+
+            int giris = 0;
+            for (int i = bitis; i < richTextBox1.Lines.Length; i++)
+            {
+                string tablolar = (richTextBox1.Lines[i].Trim()).ToUpper();
+                tablolar = tablolar.Trim(' ', '1', '.');
+
+                if ("\tGİRİŞ".Equals(tablolar) || "1.\tGİRİŞ".Equals(tablolar) || "1. GİRİŞ".Equals(tablolar) || "GİRİŞ".Equals(tablolar))
+                {
+                    giris = i;
+                    break;
+                }
+            }
+            int oneriler = 0;
+            bool kontrol_onerilenler = false;
+            for (int i = giris; i < richTextBox1.Lines.Length; i++)
+            {
+                string tablolar = (richTextBox1.Lines[i].Trim()).ToUpper();
+
+                if ("ÖNERİLER".Equals(tablolar) || "\tÖNERİLER".Equals(tablolar) || "1.\tÖNERİLER".Equals(tablolar))
+                {
+                    oneriler = i;
+                    kontrol_onerilenler = true;
+                    break;
+                }
+            }
+            if (!kontrol_onerilenler)
+            {
+                MessageBox.Show("Kardeş bu tez eksik içinde Öneriler yok.\n sen git tamamla gel");
+            }
+
+            int[] deger_kontrol = new int[tabloLst.Count];//sekillerTbl1 nin değerlerinin varlık durumuna göre her bulduğunda bulunana değerin bulunduğu indisi deger_kontrol arry indeki indisini bir attırır
+            for (int i = giris; i < oneriler; i++)
+            {
+                string tablolar = (richTextBox1.Lines[i]);
+                int deger = 0;
+
+                for (int j = 0; j < tabloLst.Count; j++)
+                {
+                    deger = tablolar.IndexOf(tabloLst[j]);
+                    if (deger >= 0)
+                    {
+                        deger_kontrol[j] += 1;
+                    }
+                }
+            }
+            sonuc.listBox1.Items.Clear();
+            sonuc.listBox1.Items.Add("Tablo Kontrolleri");
+            sonuc.listBox2.Items.Add("Tablo Kontrolleri");
+            for (int i = 0; i < deger_kontrol.Length; i++)
+            {
+                if (deger_kontrol[i] != 0)
+                {
+                    //MessageBox.Show("Bu var" + tabloLst[i]);
+                }
+                else
+                {
+                    string tabloNotFound = tabloLst[i] + " no'lu tablo, ana metin içerisinde bulunamadı!";
+                    //MessageBox.Show("Bu yok" + tabloLst[i]);
+                    sonuc.listBox1.Items.Add(tabloNotFound);
+                    sonuc.listBox2.Items.Add(tabloNotFound);
+                }
+            }
+            sonuc.listBox1.Items.Add(" ");
+            sonuc.listBox1.Items.Add(" ");
+            sonuc.listBox2.Items.Add(" ");
+            sonuc.listBox2.Items.Add(" ");
+        }
 
         /*
          * KoseliParantez()
@@ -242,7 +363,7 @@ namespace WindowsFormsApp1
             for (int i = 0; i < richTextBox1.Lines.Length; i++)
             {
                 string sekiller = (richTextBox1.Lines[i].Trim()).ToUpper();
-                if ("ŞEKİLLER LİSTESİ".Equals(sekiller) || "ŞEKİLLER".Equals(sekiller))
+                if ("ŞEKİLLER LİSTESİ".Equals(sekiller) || "ŞEKİLLER".Equals(sekiller) || "\tŞEKİLLER LİSTESİ".Equals(sekiller) || "\tŞEKİLLER".Equals(sekiller))
                 {
                     baslangic = i;
                 }
@@ -278,10 +399,7 @@ namespace WindowsFormsApp1
                 }
             }
 
-            foreach (string item in sekillerTbl1)
-            {
-                MessageBox.Show((item).ToString());
-            }
+
 
             int giris = 0;
             for (int i = bitis; i < richTextBox1.Lines.Length; i++)
@@ -289,7 +407,7 @@ namespace WindowsFormsApp1
                 string sekiller = (richTextBox1.Lines[i].Trim()).ToUpper();
                 sekiller = sekiller.Trim(' ', '1', '.');
 
-                if ("1.GİRİŞ".Equals(sekiller) || "GİRİŞ".Equals(sekiller))
+                if ("\tGİRİŞ".Equals(sekiller) || "1.\tGİRİŞ".Equals(sekiller) || "1. GİRİŞ".Equals(sekiller) || "GİRİŞ".Equals(sekiller))
                 {
                     giris = i;
                     break;
@@ -301,7 +419,7 @@ namespace WindowsFormsApp1
             {
                 string sekiller = (richTextBox1.Lines[i].Trim()).ToUpper();
 
-                if ("ÖNERİLER".Equals(sekiller))
+                if ("ÖNERİLER".Equals(sekiller) || "\tÖNERİLER".Equals(sekiller) || "1.\tÖNERİLER".Equals(sekiller))
                 {
                     oneriler = i;
                     kontrol_onerilenler = true;
@@ -316,12 +434,12 @@ namespace WindowsFormsApp1
             int[] deger_kontrol = new int[sekillerTbl1.Count];//sekillerTbl1 nin değerlerinin varlık durumuna göre her bulduğunda bulunana değerin bulunduğu indisi deger_kontrol arry indeki indisini bir attırır
             for (int i = giris; i < oneriler; i++)
             {
-                string sekiller = (richTextBox1.Lines[i]);
+                string tablolar = (richTextBox1.Lines[i]);
                 int deger = 0;
 
                 for (int j = 0; j < sekillerTbl1.Count; j++)
                 {
-                    deger = sekiller.IndexOf(sekillerTbl1[j]);
+                    deger = tablolar.IndexOf(sekillerTbl1[j]);
                     if (deger >= 0)
                     {
                         deger_kontrol[j] += 1;
@@ -329,17 +447,27 @@ namespace WindowsFormsApp1
                 }
             }
 
+            sonuc.listBox1.Items.Clear();
+            sonuc.listBox1.Items.Add("Şekil Kontrolleri");
+            sonuc.listBox2.Items.Add("Şekil Kontrolleri");
             for (int i = 0; i < deger_kontrol.Length; i++)
             {
                 if (deger_kontrol[i] != 0)
                 {
-                    MessageBox.Show("Bu var" + sekillerTbl1[i]);
+                    //MessageBox.Show("Bu var" + tabloLst[i]);
                 }
                 else
                 {
-                    MessageBox.Show("Bu yok" + sekillerTbl1[i]);
+                    string sekilNotFound = sekillerTbl1[i] + " no'lu şekil, ana metin içerisinde bulunamadı!";
+                    //MessageBox.Show("Bu yok" + tabloLst[i]);
+                    sonuc.listBox1.Items.Add(sekilNotFound);
+                    sonuc.listBox2.Items.Add(sekilNotFound);
                 }
             }
+            sonuc.listBox1.Items.Add(" ");
+            sonuc.listBox1.Items.Add(" ");
+            sonuc.listBox2.Items.Add(" ");
+            sonuc.listBox2.Items.Add(" ");
         }
         void GenelSekilKontrolu() {
             int baslangic = 0;
@@ -612,23 +740,12 @@ namespace WindowsFormsApp1
                 }
             }
         }
-        void IcindekilerBaslikKontroluDevamıBtn3() {
-            object readOnly = false;
-            object visible = true;
-            object save = false;
-            object fileName = @"C:\Users\mertb\OneDrive\Masaüstü\progdiller-22.12.2020\dosya2.docx";
-            object newTemplate = false;
-            object docType = 0;
-            object missing = Type.Missing;
-
-            application = new Microsoft.Office.Interop.Word.Application() { Visible = false };
-            document = application.Documents.Open(ref fileName, ref missing, ref readOnly, ref missing, ref missing, ref missing, ref missing,
-            ref missing, ref missing, ref missing, ref missing, ref visible, ref missing, ref missing, ref missing, ref missing);
-            document.ActiveWindow.Selection.WholeStory();
-            document.ActiveWindow.Selection.Copy();
-            IDataObject dataObject = Clipboard.GetDataObject();
-
-            bool durum = true;
+        void IcindekilerBaslikKontroluDevamıBtn3()
+        {
+            //bool durum = true;
+            sonuc.listBox1.Items.Clear();
+            sonuc.listBox1.Items.Add("İçindekiler başlık sayfa numarası kontrolü ");
+            sonuc.listBox2.Items.Add("İçindekiler başlık sayfa numarası kontrolü ");
             foreach (Microsoft.Office.Interop.Word.Paragraph c in document.Paragraphs)
             {
                 foreach (var item in basliklar)
@@ -636,26 +753,31 @@ namespace WindowsFormsApp1
                     if ((c.Range.Text.Trim()) == (item.Key).Trim())
                     {
                         int page = c.Range.Information[Microsoft.Office.Interop.Word.WdInformation.wdActiveEndAdjustedPageNumber];
-                        //  MessageBox.Show(c.Range.Text + "is on page " + page.ToString());
+                        //  MessageBox.Show(c.Range.Text + "is on page " + page.ToString());                      
                         if (item.Value == page)
                         {
-                            MessageBox.Show("Doğru olanlar\n" + item.Key + " : " + item.Value);
+                            // MessageBox.Show("Doğru olanlar\n" + item.Key + " : " + item.Value);
                         }
                         else
                         {
-                            MessageBox.Show("Kardeş içindekilerde belirtiğin '" + item.Key + "' başlığın\n" + item.Value + " numaralı sayfada bulunmamaktadır!!!");
-                            durum = false;
+                            sonuc.listBox1.Items.Add("'" + item.Key + "' başlığın\n" + item.Value + ". sayfada bulunmamaktadır!");
+                            sonuc.listBox2.Items.Add("'" + item.Key + "' başlığın\n" + item.Value + ". sayfada bulunmamaktadır!");
+                            // durum = false;
                             break;
-
                         }
                     }
+
                 }
-                if (!durum)
-                {
-                    MessageBox.Show("Şimdi git düzelt gel!");
-                    break;
-                }
+                // if (!durum)
+                // {
+                //    sonuc.listBox1.Items.Add("Lütfen   ");
+                //    break;
+                // }
             }
+
+            sonuc.listBox2.Items.Add("");
+            sonuc.listBox2.Items.Add("");
+
         }
 
         /*
@@ -1225,7 +1347,7 @@ namespace WindowsFormsApp1
             sonuc.listBox2.Visible = false;
             timer1.Enabled = true;
             SekilKontrol();
-            GenelSekilKontrolu();
+            sonuc.Show();
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -1244,6 +1366,7 @@ namespace WindowsFormsApp1
             sonuc.listBox2.Visible = false;
             IcindekilerBaslikKontrolu();
             IcindekilerBaslikKontroluDevamıBtn3();
+            sonuc.Show();
         }
 
         private void KaynakcaKontrol_Click(object sender, EventArgs e)
@@ -1331,6 +1454,7 @@ namespace WindowsFormsApp1
         {
             sonuc.listBox1.Visible = true;
             sonuc.listBox2.Visible = false;
+            TabloKontrol();
             sonuc.Show();
         }
 
