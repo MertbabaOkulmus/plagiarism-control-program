@@ -75,3 +75,15 @@ C:\Users\mertb\Desktop\progdiller-22.12.2020\progdiller-22.12.2020\WindowsFormsA
 C:\Users\mertb\Desktop\progdiller-22.12.2020\progdiller-22.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 C:\Users\mertb\Desktop\progdiller-22.12.2020\progdiller-22.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
 C:\Users\mertb\Desktop\progdiller-22.12.2020\progdiller-22.12.2020\WindowsFormsApp1\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Sonuc.resources
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojAssemblyReference.cache
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.ResolveComReference.cache
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Sonuc.resources
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.cache
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
+C:\Users\mertb\Desktop\plagiarism-control-program\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
