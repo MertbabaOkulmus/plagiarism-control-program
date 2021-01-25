@@ -68,7 +68,11 @@ namespace WindowsFormsApp1
             // Sonuc
             // 
             this.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar;
+<<<<<<< HEAD
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+=======
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+>>>>>>> 2921aa48963feecaac9b3b69afd8c17df27269b6
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(140)))), ((int)(((byte)(149)))), ((int)(((byte)(171)))));
             this.ClientSize = new System.Drawing.Size(551, 657);
@@ -76,7 +80,10 @@ namespace WindowsFormsApp1
             this.Controls.Add(this.listBox2);
             this.Controls.Add(this.listBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+<<<<<<< HEAD
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+=======
+>>>>>>> 2921aa48963feecaac9b3b69afd8c17df27269b6
             this.Name = "Sonuc";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sonuc";

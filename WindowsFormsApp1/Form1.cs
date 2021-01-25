@@ -251,9 +251,17 @@ namespace WindowsFormsApp1
                         // MessageBox.Show(tirnak[j]);
                         try
                         {
+<<<<<<< HEAD
                            
                           id_ler.Add(int.Parse(tirnak[j]));
 
+=======
+                            if (tirnak[j] != null || tirnak[j] != "")
+                            {
+                                id_ler.Add(int.Parse(tirnak[j]));
+
+                            }
+>>>>>>> 2921aa48963feecaac9b3b69afd8c17df27269b6
                         }
                         catch (Exception)
                         {
@@ -363,12 +371,21 @@ namespace WindowsFormsApp1
 
                     //MessageBox.Show("Kardeş bu alıntı değil resmen copy past olmuş ayıptır günahtır !!!");
                 }
+<<<<<<< HEAD
                 //else
                 //{
                 //    // MessageBox.Show("Alıntı adededi:" + spl_adet.Length);
                 //   // sonuc.listBox1.Items.Clear();
                 //   // sonuc.listBox1.Items.Add("Alıntı sınırı aşılmamıştır!");
                 //}
+=======
+                else
+                {
+                    // MessageBox.Show("Alıntı adededi:" + spl_adet.Length);
+                    sonuc.listBox1.Items.Clear();
+                    sonuc.listBox1.Items.Add("Alıntı sınırı aşılmamıştır!");
+                }
+>>>>>>> 2921aa48963feecaac9b3b69afd8c17df27269b6
             }
         }
 
@@ -1054,7 +1071,11 @@ namespace WindowsFormsApp1
             }
             else {
                 sonuc.listBox1.Items.Clear();
+<<<<<<< HEAD
                 sonuc.listBox1.Items.Add("Önsöz Kontrolü\nYazar adı belirtilmiştir!");
+=======
+                sonuc.listBox1.Items.Add("Önsöz Kontrolü\nYazar adı belirtilmimiştir!");
+>>>>>>> 2921aa48963feecaac9b3b69afd8c17df27269b6
             }
 
         }
@@ -1407,6 +1428,8 @@ namespace WindowsFormsApp1
 
         private void SekillerListesi_Click(object sender, EventArgs e)
         {
+            Sonuc sonuc = new Sonuc();
+
             sonuc.listBox1.Visible = true;
             sonuc.listBox2.Visible = false;
             timer1.Enabled = true;
@@ -1445,7 +1468,10 @@ namespace WindowsFormsApp1
             Kaynakca();
             sonuc.listBox1.Items.Clear();
             sonuc.listBox2.Items.Add("");
+<<<<<<< HEAD
             sonuc.listBox2.Items.Add("KAYNAKÇA KONTROL SONUÇLARI");
+=======
+>>>>>>> 2921aa48963feecaac9b3b69afd8c17df27269b6
             //Metin içerisinde olan atıflar kaynakçada mevcut mu kontrolü.
             bool Genelvarlık = false;
             for (int i = 0; i < id_ler.Count; i++)
